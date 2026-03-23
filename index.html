@@ -336,6 +336,79 @@
       display: none;
     }
   </style>
+  <script>
+    const SUPABASE_URL = 'https://lusauslgwjrdbqyragbp.supabase.co'
+    const ANON_KEY = 'sb_publishable_ULEF4w_xAdCH2CkF8CmXPA_xkHh6r9H'
+    var currentLang = 'es'
+
+    async function handleSubmit() {
+      const btn = document.getElementById('form-btn')
+      const nombre  = document.getElementById('f-nombre').value
+      const email   = document.getElementById('f-email').value
+      const interes = document.getElementById('f-interes').value
+      const mensaje = document.getElementById('f-mensaje').value
+
+      if (!nombre || !email) {
+        alert(currentLang === 'es' ? 'Completá nombre y email' : 'Please fill in name and email')
+        return
+      }
+
+      btn.textContent = currentLang === 'es' ? 'Enviando...' : 'Sending...'
+      btn.disabled = true
+
+      try {
+        const res = await fetch(SUPABASE_URL + '/functions/v1/send-contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + ANON_KEY },
+          body: JSON.stringify({ nombre, email, interes, mensaje })
+        })
+        if (res.ok) {
+          document.getElementById('form-success').style.display = 'block'
+          btn.style.display = 'none'
+        } else {
+          btn.textContent = currentLang === 'es' ? 'Error, intentá de nuevo' : 'Error, try again'
+          btn.disabled = false
+        }
+      } catch(err) {
+        console.log('Error contacto:', err)
+        btn.textContent = currentLang === 'es' ? 'Error, intentá de nuevo' : 'Error, try again'
+        btn.disabled = false
+      }
+    }
+
+    function setCurrency(currency) {
+      var prices = {
+        middle:     { usd: 'U$D 3',   ars: '$4.200' },
+        middleplus: { usd: 'U$D 9',   ars: '$12.600' },
+        enterprise: { usd: 'U$D 200', ars: '$280.000' },
+      }
+      document.getElementById('btn-usd').classList.toggle('active', currency === 'usd')
+      document.getElementById('btn-ars').classList.toggle('active', currency === 'ars')
+      document.getElementById('price-middle').textContent = prices.middle[currency]
+      document.getElementById('price-middleplus').textContent = prices.middleplus[currency]
+      document.getElementById('price-enterprise').textContent = prices.enterprise[currency]
+    }
+
+    function setLang(lang) {
+      currentLang = lang
+      document.querySelectorAll('[data-' + lang + ']').forEach(function(el) {
+        var val = el.getAttribute('data-' + lang)
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = val
+        else el.innerHTML = val
+      })
+      document.querySelectorAll('.nav-lang button').forEach(function(b) { b.classList.remove('active') })
+      document.querySelector('.nav-lang button[onclick="setLang(\'' + lang + '\')"]').classList.add('active')
+    }
+
+    function toggleMobileMenu() {
+      var links = document.querySelector('.nav-links')
+      if (links.style.display === 'flex') {
+        links.style.display = 'none'
+      } else {
+        links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:#fff;padding:20px;border-bottom:1px solid #e5e7eb;gap:16px;z-index:99;'
+      }
+    }
+  </script>
 </head>
 <body>
 
@@ -422,6 +495,11 @@
           <h3 data-es="Competí y ganá" data-en="Compete and win">Competí y ganá</h3>
           <p data-es="Seguí el ranking en tiempo real. El mejor pronóstico gana el premio del grupo." data-en="Follow the real-time ranking. The best predictor wins the group prize.">Seguí el ranking en tiempo real. El mejor pronóstico gana el premio del grupo.</p>
         </div>
+      </div>
+
+      <!-- Diagrama de grupos -->
+      <div style="text-align:center;margin-top:60px;">
+        <img src="Usersmode.png" alt="Diagrama: podés crear tus propios grupos y ser invitado a grupos de otros" style="max-width:100%;width:600px;border-radius:16px;" />
       </div>
     </div>
   </section>
