@@ -647,7 +647,7 @@
       <h2 class="section-title" data-es="¿TENÉS PREGUNTAS?" data-en="GOT QUESTIONS?">¿TENÉS PREGUNTAS?</h2>
       <div class="contact-grid">
         <div>
-          <form class="contact-form" onsubmit="handleSubmit(event)">
+          <form class="contact-form" id="contact-form">
             <div class="form-row">
               <div class="form-group">
                 <label data-es="Nombre" data-en="Name">Nombre</label>
@@ -673,7 +673,7 @@
               <label data-es="Mensaje" data-en="Message">Mensaje</label>
               <textarea id="f-mensaje" placeholder="Contanos más sobre tu grupo o empresa..."></textarea>
             </div>
-            <button type="submit" class="form-submit" data-es="Enviar mensaje" data-en="Send message">Enviar mensaje</button>
+            <button type="button" class="form-submit" id="form-btn" onclick="handleSubmit()" data-es="Enviar mensaje" data-en="Send message">Enviar mensaje</button>
             <div class="form-success" id="form-success" data-es="✓ Mensaje enviado. Te respondemos en menos de 24hs." data-en="✓ Message sent. We'll reply within 24 hours.">✓ Mensaje enviado. Te respondemos en menos de 24hs.</div>
           </form>
         </div>
@@ -775,13 +775,17 @@
     const SUPABASE_URL = 'https://lusauslgwjrdbqyragbp.supabase.co'
     const ANON_KEY = 'sb_publishable_ULEF4w_xAdCH2CkF8CmXPA_xkHh6r9H'
 
-    async function handleSubmit(e) {
-      e.preventDefault()
-      const btn = e.target.querySelector('.form-submit')
+    async function handleSubmit() {
+      const btn = document.getElementById('form-btn')
       const nombre  = document.getElementById('f-nombre').value
       const email   = document.getElementById('f-email').value
       const interes = document.getElementById('f-interes').value
       const mensaje = document.getElementById('f-mensaje').value
+
+      if (!nombre || !email) {
+        alert(currentLang === 'es' ? 'Completá nombre y email' : 'Please fill in name and email')
+        return
+      }
 
       btn.textContent = currentLang === 'es' ? 'Enviando...' : 'Sending...'
       btn.disabled = true
@@ -799,7 +803,8 @@
           btn.textContent = currentLang === 'es' ? 'Error, intentá de nuevo' : 'Error, try again'
           btn.disabled = false
         }
-      } catch {
+      } catch(err) {
+        console.log('Error:', err)
         btn.textContent = currentLang === 'es' ? 'Error, intentá de nuevo' : 'Error, try again'
         btn.disabled = false
       }
