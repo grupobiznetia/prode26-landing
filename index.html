@@ -62,12 +62,35 @@
       text-align: center; padding: 100px 5% 80px;
       position: relative; overflow: hidden;
     }
+    .hero-slide {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center 30%;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+    .hero-slide.active { opacity: 0.28; }
     .hero::before {
       content: '';
       position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 20% 50%, #1a3a6a33 0%, transparent 60%),
-                  radial-gradient(ellipse at 80% 20%, #e8c84a11 0%, transparent 50%);
+      background: linear-gradient(to bottom, rgba(5,8,16,0.7) 0%, rgba(5,8,16,0.4) 50%, rgba(5,8,16,0.85) 100%),
+                  radial-gradient(ellipse at 20% 50%, #1a3a6a44 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, #e8c84a18 0%, transparent 50%);
+      z-index: 1;
     }
+    .hero > * { position: relative; z-index: 2; }
+    .hero-ball {
+      position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+      width: clamp(120px, 15vw, 220px); opacity: 0.12;
+      animation: rotateBall 20s linear infinite;
+      z-index: 1;
+    }
+    .hero-ball-left {
+      position: absolute; left: 3%; top: 20%;
+      width: clamp(60px, 7vw, 110px); opacity: 0.07;
+      animation: rotateBall 14s linear infinite reverse;
+      z-index: 1;
+    }
+    @keyframes rotateBall { from { transform: translateY(-50%) rotate(0deg); } to { transform: translateY(-50%) rotate(360deg); } }
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       background: rgba(232,200,74,0.15); border: 1px solid rgba(232,200,74,0.3);
@@ -376,17 +399,38 @@
       }
     }
 
+    // Precios base en ARS
+    var PRECIOS_ARS = { small: 10000, middle: 20000, middleplus: 35000 }
+    var usdRate = 1540 // default, se actualiza con dolarapi
+    var currentCurrency = 'ars'
+
+    // Fetch tipo de cambio Banco Macro al cargar
+    fetch('https://dolarapi.com/v1/dolares/banco')
+      .then(function(r) { return r.json() })
+      .then(function(data) {
+        var macro = Array.isArray(data) ? data.find(function(d) { return d.casa && d.casa.toLowerCase().includes('macro') }) : null
+        if (macro && macro.venta) {
+          usdRate = macro.venta
+        } else {
+          return fetch('https://dolarapi.com/v1/dolares/oficial')
+            .then(function(r) { return r.json() })
+            .then(function(d) { if (d && d.venta) usdRate = d.venta })
+        }
+      })
+      .catch(function() {})
+
+    function formatARS(n) { return '$' + n.toLocaleString('es-AR') }
+    function formatUSD(ars) { return 'U$D ' + Math.ceil(ars / usdRate) }
+
     function setCurrency(currency) {
-      var prices = {
-        middle:     { usd: 'U$D 3',   ars: '$4.200' },
-        middleplus: { usd: 'U$D 9',   ars: '$12.600' },
-        enterprise: { usd: 'U$D 200', ars: '$280.000' },
-      }
-      document.getElementById('btn-usd').classList.toggle('active', currency === 'usd')
+      currentCurrency = currency
       document.getElementById('btn-ars').classList.toggle('active', currency === 'ars')
-      document.getElementById('price-middle').textContent = prices.middle[currency]
-      document.getElementById('price-middleplus').textContent = prices.middleplus[currency]
-      document.getElementById('price-enterprise').textContent = prices.enterprise[currency]
+      document.getElementById('btn-usd').classList.toggle('active', currency === 'usd')
+      var fn = currency === 'ars' ? formatARS : formatUSD
+      document.getElementById('price-small').textContent = fn(PRECIOS_ARS.small)
+      document.getElementById('price-middle').textContent = fn(PRECIOS_ARS.middle)
+      document.getElementById('price-middleplus').textContent = fn(PRECIOS_ARS.middleplus)
+      document.getElementById('price-enterprise').textContent = currency === 'ars' ? 'Consultar' : 'Contact us'
     }
 
     function setLang(lang) {
@@ -434,7 +478,34 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-eyebrow">⚽ <span data-es="Canadá · México · USA · 2026" data-en="Canada · Mexico · USA · 2026">Canadá · México · USA · 2026</span></div>
+    <div class="hero-slide active" id="slide1" style="background-image:url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1600&q=80&fit=crop');background-position:center 40%;"></div>
+    <div class="hero-slide" id="slide2" style="background-image:url('https://images.unsplash.com/photo-1540747913346-19212a4f8d0c?w=1600&q=80&fit=crop');background-position:center 35%;"></div>
+    <div class="hero-slide" id="slide3" style="background-image:url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=1600&q=80&fit=crop');background-position:center 50%;"></div>
+    <!-- Pelota Mundial 2026 - Adidas Conext25 style -->
+    <svg class="hero-ball" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="95" fill="white" stroke="#e8c84a" stroke-width="2"/>
+      <circle cx="100" cy="100" r="95" fill="none" stroke="#1a1a2e" stroke-width="1"/>
+      <!-- Paneles hexagonales estilo Conext25 -->
+      <path d="M100 20 L120 35 L115 60 L100 65 L85 60 L80 35 Z" fill="#1a1a2e" opacity="0.85"/>
+      <path d="M165 65 L175 90 L160 105 L140 100 L135 78 L150 62 Z" fill="#1a1a2e" opacity="0.85"/>
+      <path d="M155 145 L140 165 L118 162 L112 140 L128 125 L150 130 Z" fill="#1a1a2e" opacity="0.85"/>
+      <path d="M45 145 L62 130 L82 135 L88 158 L72 168 L50 158 Z" fill="#1a1a2e" opacity="0.85"/>
+      <path d="M35 65 L50 62 L65 78 L60 100 L40 105 L25 90 Z" fill="#1a1a2e" opacity="0.85"/>
+      <!-- Detalles dorados -->
+      <path d="M100 65 L115 78 L110 98 L100 105 L90 98 L85 78 Z" fill="#e8c84a" opacity="0.6"/>
+      <circle cx="100" cy="100" r="18" fill="none" stroke="#e8c84a" stroke-width="1.5" opacity="0.5"/>
+      <circle cx="100" cy="100" r="95" fill="none" stroke="white" stroke-width="3"/>
+    </svg>
+    <svg class="hero-ball-left" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="95" fill="white" stroke="#e8c84a" stroke-width="2"/>
+      <path d="M100 20 L120 35 L115 60 L100 65 L85 60 L80 35 Z" fill="#1a1a2e" opacity="0.85"/>
+      <path d="M165 65 L175 90 L160 105 L140 100 L135 78 L150 62 Z" fill="#1a1a2e" opacity="0.85"/>
+      <path d="M155 145 L140 165 L118 162 L112 140 L128 125 L150 130 Z" fill="#1a1a2e" opacity="0.85"/>
+      <path d="M45 145 L62 130 L82 135 L88 158 L72 168 L50 158 Z" fill="#1a1a2e" opacity="0.85"/>
+      <path d="M35 65 L50 62 L65 78 L60 100 L40 105 L25 90 Z" fill="#1a1a2e" opacity="0.85"/>
+      <circle cx="100" cy="100" r="95" fill="none" stroke="white" stroke-width="3"/>
+    </svg>
+    <div class="hero-eyebrow">⚽ <img src="https://flagcdn.com/w20/ca.png" alt="Canadá" style="height:14px;vertical-align:middle;border-radius:2px;"> <img src="https://flagcdn.com/w20/mx.png" alt="México" style="height:14px;vertical-align:middle;border-radius:2px;"> <img src="https://flagcdn.com/w20/us.png" alt="USA" style="height:14px;vertical-align:middle;border-radius:2px;"> <span>2026</span></div>
     <h1 data-es="EL PRODE<br><span>MUNDIAL</span><br>2026" data-en="THE WORLD CUP<br><span>PREDICTOR</span><br>2026">EL PRODE<br><span>MUNDIAL</span><br>2026</h1>
     <p class="hero-sub" data-es="Pronosticá los partidos, competí con amigos, clientes, familia o tu empresa y viví el Mundial como nunca antes." data-en="Predict the matches, compete with friends, clients, family or your company and experience the World Cup like never before.">
       Pronosticá los partidos, competí con amigos, clientes, familia o tu empresa y viví el Mundial como nunca antes.
@@ -512,8 +583,8 @@
       <p class="section-sub" data-es="Pago único por toda la duración del Mundial. Sin sorpresas." data-en="One-time payment for the entire World Cup. No surprises.">Pago único por toda la duración del Mundial. Sin sorpresas.</p>
       <br><br>
       <div class="plans-toggle">
-        <button class="active" onclick="setCurrency('usd')" id="btn-usd">🇺🇸 USD</button>
-        <button onclick="setCurrency('ars')" id="btn-ars">🇦🇷 ARS</button>
+        <button class="active" onclick="setCurrency('ars')" id="btn-ars">🇦🇷 ARS</button>
+        <button onclick="setCurrency('usd')" id="btn-usd">🇺🇸 USD</button>
       </div>
       <div class="plans-grid">
 
@@ -523,12 +594,13 @@
           <div class="plan-tagline" data-es="7 días para probar todo" data-en="7 days to try everything">7 días para probar todo</div>
           <div class="plan-price">
             <div class="plan-price-num" data-es="Gratis" data-en="Free">Gratis</div>
-            <div class="plan-price-period" data-es="7 días de acceso" data-en="7 days access">7 días de acceso</div>
+            <div class="plan-price-period" data-es="7 días · 25 participantes" data-en="7 days · 25 participants">7 días · 25 participantes</div>
           </div>
           <ul class="plan-features">
             <li data-es="25 participantes" data-en="25 participants">25 participantes</li>
             <li data-es="Todas las funciones" data-en="All features">Todas las funciones</li>
             <li data-es="Logo de empresa incluido" data-en="Company logo included">Logo de empresa incluido</li>
+            <li data-es="Acceso completo 7 días" data-en="Full access 7 days">Acceso completo 7 días</li>
           </ul>
           <a href="https://prode26-5qup.vercel.app" class="plan-cta" data-es="Empezar gratis" data-en="Start free">Empezar gratis</a>
         </div>
@@ -539,30 +611,47 @@
           <div class="plan-tagline" data-es="Para amigos y familia" data-en="For friends and family">Para amigos y familia</div>
           <div class="plan-price">
             <div class="plan-price-num" data-es="Gratis" data-en="Free">Gratis</div>
-            <div class="plan-price-period">&nbsp;</div>
+            <div class="plan-price-period" data-es="Todo el Mundial · 5 participantes" data-en="Full World Cup · 5 participants">Todo el Mundial · 5 participantes</div>
           </div>
           <ul class="plan-features">
-            <li data-es="Hasta 6 participantes" data-en="Up to 6 participants">Hasta 6 participantes</li>
+            <li data-es="Hasta 5 participantes" data-en="Up to 5 participants">Hasta 5 participantes</li>
+            <li data-es="Gratis para siempre" data-en="Free forever">Gratis para siempre</li>
             <li data-es="Sin logo de empresa" data-en="No company logo">Sin logo de empresa</li>
-            <li data-es="Duración del Mundial" data-en="Full World Cup">Duración del Mundial</li>
           </ul>
           <a href="https://prode26-5qup.vercel.app" class="plan-cta" data-es="Elegir Family" data-en="Choose Family">Elegir Family</a>
+        </div>
+
+        <div class="plan-card">
+          <div class="plan-icon">⭐</div>
+          <div class="plan-name">SMALL</div>
+          <div class="plan-tagline" data-es="Primeros pasos empresariales" data-en="First business steps">Primeros pasos empresariales</div>
+          <div class="plan-price">
+            <div class="plan-price-num" id="price-small">$10.000</div>
+            <div class="plan-price-period" data-es="pago único · Mundial completo" data-en="one-time · full World Cup">pago único · Mundial completo</div>
+          </div>
+          <ul class="plan-features">
+            <li data-es="Hasta 20 participantes" data-en="Up to 20 participants">Hasta 20 participantes</li>
+            <li data-es="ARS 500 por persona" data-en="ARS 500 per person">ARS 500 por persona</li>
+            <li data-es="Logo de empresa" data-en="Company logo">Logo de empresa</li>
+            <li data-es="Ranking en tiempo real" data-en="Real-time ranking">Ranking en tiempo real</li>
+          </ul>
+          <a href="https://prode26-5qup.vercel.app" class="plan-cta" data-es="Elegir Small" data-en="Choose Small">Elegir Small</a>
         </div>
 
         <div class="plan-card featured">
           <div class="plan-badge" data-es="⭐ Más popular" data-en="⭐ Most popular">⭐ Más popular</div>
           <div class="plan-icon">⚡</div>
           <div class="plan-name">MIDDLE</div>
-          <div class="plan-tagline" data-es="Amigos, grupos de trabajo, mejores clientes..." data-en="Friends, work groups, best clients...">Amigos, grupos de trabajo, mejores clientes...</div>
+          <div class="plan-tagline" data-es="Grupos de trabajo y empresas" data-en="Work groups and companies">Grupos de trabajo y empresas</div>
           <div class="plan-price">
-            <div class="plan-price-num" id="price-middle">U$D 3</div>
+            <div class="plan-price-num" id="price-middle">$20.000</div>
             <div class="plan-price-period" data-es="pago único · Mundial completo" data-en="one-time · full World Cup">pago único · Mundial completo</div>
           </div>
           <ul class="plan-features">
-            <li data-es="25 participantes" data-en="25 participants">25 participantes</li>
+            <li data-es="Hasta 50 participantes" data-en="Up to 50 participants">Hasta 50 participantes</li>
+            <li data-es="ARS 400 por persona" data-en="ARS 400 per person">ARS 400 por persona</li>
             <li data-es="Logo de empresa" data-en="Company logo">Logo de empresa</li>
             <li data-es="Ranking en tiempo real" data-en="Real-time ranking">Ranking en tiempo real</li>
-            <li data-es="Duración del Mundial" data-en="Full World Cup">Duración del Mundial</li>
           </ul>
           <a href="https://prode26-5qup.vercel.app" class="plan-cta" data-es="Elegir Middle" data-en="Choose Middle">Elegir Middle</a>
         </div>
@@ -572,14 +661,14 @@
           <div class="plan-name">MIDDLE+</div>
           <div class="plan-tagline" data-es="Empresas medianas" data-en="Mid-size companies">Empresas medianas</div>
           <div class="plan-price">
-            <div class="plan-price-num" id="price-middleplus">U$D 9</div>
+            <div class="plan-price-num" id="price-middleplus">$35.000</div>
             <div class="plan-price-period" data-es="pago único · Mundial completo" data-en="one-time · full World Cup">pago único · Mundial completo</div>
           </div>
           <ul class="plan-features">
-            <li data-es="50 participantes" data-en="50 participants">50 participantes</li>
+            <li data-es="Hasta 100 participantes" data-en="Up to 100 participants">Hasta 100 participantes</li>
+            <li data-es="ARS 350 por persona" data-en="ARS 350 per person">ARS 350 por persona</li>
             <li data-es="Logo de empresa" data-en="Company logo">Logo de empresa</li>
             <li data-es="Ranking en tiempo real" data-en="Real-time ranking">Ranking en tiempo real</li>
-            <li data-es="Duración del Mundial" data-en="Full World Cup">Duración del Mundial</li>
           </ul>
           <a href="https://prode26-5qup.vercel.app" class="plan-cta" data-es="Elegir Middle+" data-en="Choose Middle+">Elegir Middle+</a>
         </div>
@@ -587,18 +676,18 @@
         <div class="plan-card">
           <div class="plan-icon">🏢</div>
           <div class="plan-name">ENTERPRISE</div>
-          <div class="plan-tagline" data-es="Para grandes empresas" data-en="For large companies">Para grandes empresas</div>
+          <div class="plan-tagline" data-es="Más de 100 jugadores" data-en="More than 100 players">Más de 100 jugadores</div>
           <div class="plan-price">
-            <div class="plan-price-num" id="price-enterprise">U$D 200</div>
-            <div class="plan-price-period" data-es="pago único · Mundial completo" data-en="one-time · full World Cup">pago único · Mundial completo</div>
+            <div class="plan-price-num" id="price-enterprise" data-es="Consultar" data-en="Contact us">Consultar</div>
+            <div class="plan-price-period" data-es="precio a convenir" data-en="price on request">precio a convenir</div>
           </div>
           <ul class="plan-features">
-            <li data-es="300 participantes" data-en="300 participants">300 participantes</li>
+            <li data-es="Más de 100 participantes" data-en="More than 100 participants">Más de 100 participantes</li>
             <li data-es="Logo de empresa" data-en="Company logo">Logo de empresa</li>
-            <li data-es="Ranking en tiempo real" data-en="Real-time ranking">Ranking en tiempo real</li>
-            <li data-es="Duración del Mundial" data-en="Full World Cup">Duración del Mundial</li>
+            <li data-es="Implementación personalizada" data-en="Custom implementation">Implementación personalizada</li>
+            <li data-es="Soporte dedicado" data-en="Dedicated support">Soporte dedicado</li>
           </ul>
-          <a href="#contacto" class="plan-cta" data-es="Contactar" data-en="Contact us">Contactar</a>
+          <a href="#contacto" class="plan-cta" data-es="Consultar precio" data-en="Contact us">Consultar precio</a>
         </div>
 
       </div>
@@ -624,7 +713,7 @@
             <div class="enterprise-feature">
               <div class="enterprise-feature-icon">👥</div>
               <div>
-                <h4 data-es="Hasta 300 participantes" data-en="Up to 300 participants">Hasta 300 participantes</h4>
+                <h4 data-es="Más de 100 participantes" data-en="More than 100 participants">Más de 100 participantes</h4>
                 <p data-es="Importá toda tu empresa desde un CSV. Gestión simple del admin para agregar o dar de baja jugadores." data-en="Import your entire company from a CSV. Simple admin management to add or remove players.">Importá toda tu empresa desde un CSV. Gestión simple del admin para agregar o dar de baja jugadores.</p>
               </div>
             </div>
@@ -638,8 +727,8 @@
             <div class="enterprise-feature">
               <div class="enterprise-feature-icon">💰</div>
               <div>
-                <h4 data-es="Precio único por el Mundial" data-en="One price for the World Cup">Precio único por el Mundial</h4>
-                <p data-es="U$D 200 por todo el torneo para 300 personas. Menos de U$D 0.70 por persona." data-en="U$D 200 for the entire tournament for 300 people. Less than U$D 0.70 per person.">U$D 200 por todo el torneo para 300 personas. Menos de U$D 0.70 por persona.</p>
+                <h4 data-es="Precio a medida" data-en="Custom pricing">Precio a medida</h4>
+                <p data-es="Consultanos la cantidad de jugadores y te armamos una propuesta personalizada." data-en="Tell us your player count and we'll put together a personalized proposal for you.">Consultanos la cantidad de jugadores y te armamos una propuesta personalizada.</p>
               </div>
             </div>
           </div>
@@ -647,10 +736,10 @@
         <div>
           <div class="enterprise-visual">
             <div class="enterprise-visual-logo">PRODE 2026</div>
-            <p data-es="Tu empresa, el Mundial, 300 colegas compitiendo. El evento interno del año." data-en="Your company, the World Cup, 300 colleagues competing. The internal event of the year.">Tu empresa, el Mundial, 300 colegas compitiendo. El evento interno del año.</p>
+            <p data-es="Tu empresa, el Mundial, más de 100 colegas compitiendo. El evento interno del año." data-en="Your company, the World Cup, more than 100 colleagues competing. The internal event of the year.">Tu empresa, el Mundial, más de 100 colegas compitiendo. El evento interno del año.</p>
             <div class="enterprise-stats">
               <div class="enterprise-stat">
-                <div class="enterprise-stat-num">300</div>
+                <div class="enterprise-stat-num">+100</div>
                 <div class="enterprise-stat-label" data-es="Participantes" data-en="Participants">Participantes</div>
               </div>
               <div class="enterprise-stat">
@@ -658,16 +747,16 @@
                 <div class="enterprise-stat-label" data-es="Partidos" data-en="Matches">Partidos</div>
               </div>
               <div class="enterprise-stat">
-                <div class="enterprise-stat-num">U$D 200</div>
-                <div class="enterprise-stat-label" data-es="Pago único" data-en="One-time">Pago único</div>
+                <div class="enterprise-stat-num" style="font-size:18px;line-height:1.2;" data-es="Onboarding Asistido" data-en="Assisted Onboarding">Onboarding Asistido</div>
+                <div class="enterprise-stat-label" data-es="incluido" data-en="included">incluido</div>
               </div>
               <div class="enterprise-stat">
-                <div class="enterprise-stat-num">&lt; $1</div>
-                <div class="enterprise-stat-label" data-es="Por persona" data-en="Per person">Por persona</div>
+                <div class="enterprise-stat-num" style="font-size:18px;line-height:1.2;" data-es="Consultar" data-en="Contact us">Consultar</div>
+                <div class="enterprise-stat-label" data-es="precio a convenir" data-en="price on request">precio a convenir</div>
               </div>
             </div>
             <br>
-            <a href="#contacto" class="btn-primary" style="display:inline-block;" data-es="Quiero Enterprise" data-en="I want Enterprise">Quiero Enterprise</a>
+            <a href="#contacto" class="btn-primary" style="display:inline-block;" data-es="Consultar Enterprise" data-en="Contact Enterprise">Consultar Enterprise</a>
           </div>
         </div>
       </div>
@@ -740,10 +829,11 @@
               <label data-es="¿Qué te interesa?" data-en="What interests you?">¿Qué te interesa?</label>
               <select id="f-interes">
                 <option data-es="Plan Demo (gratis 7 días)" data-en="Demo Plan (free 7 days)">Plan Demo (gratis 7 días)</option>
-                <option data-es="Plan Family (gratis)" data-en="Family Plan (free)">Plan Family (gratis)</option>
-                <option data-es="Plan Middle (U$D 3)" data-en="Middle Plan (U$D 3)">Plan Middle (U$D 3)</option>
-                <option data-es="Plan Middle+ (U$D 9)" data-en="Middle+ Plan (U$D 9)">Plan Middle+ (U$D 9)</option>
-                <option data-es="Plan Enterprise (U$D 200)" data-en="Enterprise Plan (U$D 200)">Plan Enterprise (U$D 200)</option>
+                <option data-es="Plan Family (gratis · 5 usuarios)" data-en="Family Plan (free · 5 users)">Plan Family (gratis · 5 usuarios)</option>
+                <option data-es="Plan Small ($10.000 · 20 usuarios)" data-en="Small Plan ($10.000 · 20 users)">Plan Small ($10.000 · 20 usuarios)</option>
+                <option data-es="Plan Middle ($20.000 · 50 usuarios)" data-en="Middle Plan ($20.000 · 50 users)">Plan Middle ($20.000 · 50 usuarios)</option>
+                <option data-es="Plan Middle+ ($35.000 · 100 usuarios)" data-en="Middle+ Plan ($35.000 · 100 users)">Plan Middle+ ($35.000 · 100 usuarios)</option>
+                <option data-es="Plan Enterprise (consultar)" data-en="Enterprise Plan (contact us)">Plan Enterprise (consultar)</option>
                 <option data-es="Tengo una pregunta" data-en="I have a question">Tengo una pregunta</option>
               </select>
             </div>
@@ -760,7 +850,7 @@
             <div class="contact-info-icon">📧</div>
             <div>
               <h4 data-es="Email" data-en="Email">Email</h4>
-              <p><a href="/cdn-cgi/l/email-protection#384b5748574a4c5d78484a575c5d0a0e165b5755"><span class="__cf_email__" data-cfemail="31425e415e4345547141435e555403071f525e5c">[email&#160;protected]</span></a></p>
+              <p><a href="mailto:grupobiznetia@gmail.com" style="color:inherit;">grupobiznetia@gmail.com</a></p>
             </div>
           </div>
           <div class="contact-info-item">
@@ -802,11 +892,11 @@
   <footer>
     <div>
       <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#64748b;letter-spacing:1px;">PRODE <span style="color:#e8c84a;">2026</span></span>
-      <span style="margin-left:16px;font-size:12px;" data-es="Canadá · México · USA · 2026" data-en="Canada · Mexico · USA · 2026">Canadá · México · USA · 2026</span>
+      <span style="margin-left:16px;font-size:12px;display:inline-flex;align-items:center;gap:4px;"><img src="https://flagcdn.com/w20/ca.png" alt="CA" style="height:12px;border-radius:1px;"> <img src="https://flagcdn.com/w20/mx.png" alt="MX" style="height:12px;border-radius:1px;"> <img src="https://flagcdn.com/w20/us.png" alt="US" style="height:12px;border-radius:1px;"> 2026</span>
     </div>
     <div class="footer-links">
       <a href="https://prode26-5qup.vercel.app" data-es="Ingresar a la app" data-en="Go to app">Ingresar a la app</a>
-      <a href="/cdn-cgi/l/email-protection#097a6679667b7d6c49797b666d6c3b3f276a6664"><span class="__cf_email__" data-cfemail="73001c031c0107163303011c171641455d101c1e">[email&#160;protected]</span></a>
+      <a href="mailto:grupobiznetia@gmail.com" style="color:inherit;">grupobiznetia@gmail.com</a>
     </div>
   </footer>
 
@@ -833,9 +923,10 @@
     // ── CURRENCY ──
     let currentCurrency = 'usd'
     const prices = {
-      middle:      { usd: 'U$D 3',   ars: '$4.200' },
-      middleplus:  { usd: 'U$D 9',   ars: '$12.600' },
-      enterprise:  { usd: 'U$D 200', ars: '$280.000' },
+      small:       { usd: formatUSD(10000), ars: '$10.000' },
+      middle:      { usd: formatUSD(20000), ars: '$20.000' },
+      middleplus:  { usd: formatUSD(35000), ars: '$35.000' },
+      enterprise:  { usd: 'Contact us',    ars: 'Consultar' },
     }
     function setCurrency(currency) {
       currentCurrency = currency
@@ -887,6 +978,22 @@
         btn.disabled = false
       }
     }
+
+    // ── HERO SLIDESHOW ──
+    ;(function() {
+      var slides = [
+        document.getElementById('slide1'),
+        document.getElementById('slide2'),
+        document.getElementById('slide3')
+      ].filter(Boolean)
+      if (slides.length < 2) return
+      var current = 0
+      setInterval(function() {
+        slides[current].classList.remove('active')
+        current = (current + 1) % slides.length
+        slides[current].classList.add('active')
+      }, 6000)
+    })()
 
     // ── MOBILE MENU ──
     function toggleMobileMenu() {
