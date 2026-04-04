@@ -92,6 +92,28 @@
       animation: rotateBallRev 24s linear infinite;
       z-index: 1;
     }
+    @media (max-width: 768px) {
+      .hero-ball {
+        width: 140px;
+        top: auto;
+        bottom: 60px;
+        right: 10px;
+        transform: none;
+        opacity: 0.5;
+        animation: rotateBallMobile 18s linear infinite;
+      }
+      .hero-ball-left {
+        width: 70px;
+        top: auto;
+        bottom: 180px;
+        left: 10px;
+        opacity: 0.25;
+      }
+    }
+    @keyframes rotateBallMobile {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
     @keyframes rotateBall {
       from { transform: translateY(-50%) rotate(0deg); }
       to   { transform: translateY(-50%) rotate(360deg); }
@@ -414,10 +436,10 @@
     var currentCurrency = 'ars'
 
     // Fetch tipo de cambio Banco Macro al cargar
-    fetch('https://dolarapi.com/v1/dolares/banco')
+    fetch('https://dolarapi.com/v1/dolares')
       .then(function(r) { return r.json() })
       .then(function(data) {
-        var macro = Array.isArray(data) ? data.find(function(d) { return d.casa && d.casa.toLowerCase().includes('macro') }) : null
+        var macro = Array.isArray(data) ? data.find(function(d) { return d.nombre && d.nombre.toLowerCase().includes('oficial') }) : null
         if (macro && macro.venta) {
           usdRate = macro.venta
         } else {
