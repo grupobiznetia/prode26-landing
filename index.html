@@ -67,6 +67,7 @@
       background-size: cover; background-position: center 30%;
       opacity: 0;
       transition: opacity 1.5s ease-in-out;
+      z-index: 0;
     }
     .hero-slide.active { opacity: 0.45; }
     .hero::before {
@@ -94,25 +95,14 @@
     }
     @media (max-width: 768px) {
       .hero-ball {
-        width: 140px;
-        top: auto;
-        bottom: 60px;
-        right: 10px;
-        transform: none;
-        opacity: 0.5;
-        animation: rotateBallMobile 18s linear infinite;
+        width: 90px;
+        top: 50%;
+        bottom: auto;
+        right: 8px;
+        transform: translateY(-50%) rotate(0deg);
+        opacity: 0.45;
       }
-      .hero-ball-left {
-        width: 70px;
-        top: auto;
-        bottom: 180px;
-        left: 10px;
-        opacity: 0.25;
-      }
-    }
-    @keyframes rotateBallMobile {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
+      .hero-ball-left { display: none; }
     }
     @keyframes rotateBall {
       from { transform: translateY(-50%) rotate(0deg); }
