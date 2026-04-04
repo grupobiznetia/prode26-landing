@@ -79,26 +79,27 @@
     }
     .hero > * { position: relative; z-index: 2; }
     .hero-ball {
-      position: absolute; right: 3%; top: 50%; transform: translateY(-50%);
+      position: absolute; right: 3%; top: 50%;
       width: clamp(160px, 20vw, 300px);
-      height: clamp(160px, 20vw, 300px);
-      opacity: 0.20;
+      opacity: 0.22;
       animation: rotateBall 18s linear infinite;
       z-index: 1;
-      filter: drop-shadow(0 0 30px rgba(212,175,55,0.25));
-      display: flex; align-items: center; justify-content: center;
     }
     .hero-ball-left {
-      position: absolute; left: 2%; top: 15%;
-      width: clamp(70px, 9vw, 140px);
-      height: clamp(70px, 9vw, 140px);
-      opacity: 0.09;
+      position: absolute; left: 2%; top: 10%;
+      width: clamp(70px, 9vw, 130px);
+      opacity: 0.10;
       animation: rotateBallRev 24s linear infinite;
       z-index: 1;
-      display: flex; align-items: center; justify-content: center;
     }
-    @keyframes rotateBall { from { transform: translateY(-50%) rotate(0deg); } to { transform: translateY(-50%) rotate(360deg); } }
-    @keyframes rotateBallRev { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+    @keyframes rotateBall {
+      from { transform: translateY(-50%) rotate(0deg); }
+      to   { transform: translateY(-50%) rotate(360deg); }
+    }
+    @keyframes rotateBallRev {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(-360deg); }
+    }
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       background: rgba(232,200,74,0.15); border: 1px solid rgba(232,200,74,0.3);
@@ -486,20 +487,12 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-slide active" id="slide1" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Estadio_Azteca_-_Club_América_vs._Cruz_Azul_%2820-04-2013%29.jpg/1280px-Estadio_Azteca_-_Club_América_vs._Cruz_Azul_%2820-04-2013%29.jpg');background-position:center 50%;"></div>
-    <div class="hero-slide" id="slide2" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/SoccerBall.svg/800px-SoccerBall.svg.png');background-position:center 40%;"></div>
-    <div class="hero-slide" id="slide3" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/SoFi_Stadium_-_exterior_%28cropped%29.jpg/1280px-SoFi_Stadium_-_exterior_%28cropped%29.jpg');background-position:center 50%;"></div>
-    <!-- Pelota Trionda — imagen local (public/trionda.png) -->
-    <div class="hero-ball" id="heroBall">
-      <img src="/trionda.png" alt="Trionda 2026"
-        onerror="this.parentElement.innerHTML='⚽'; this.parentElement.style.fontSize='clamp(120px,18vw,280px)'; this.parentElement.style.filter='none';"
-        style="width:100%;height:100%;object-fit:contain;"/>
-    </div>
-    <div class="hero-ball-left" id="heroBallLeft">
-      <img src="/trionda.png" alt=""
-        onerror="this.style.display='none';"
-        style="width:100%;height:100%;object-fit:contain;"/>
-    </div>
+    <div class="hero-slide active" id="slide1" style="background-image:url('/hero1.jpg');background-size:cover;background-position:center 40%;"></div>
+    <div class="hero-slide" id="slide2" style="background-image:url('/hero1.jpg');background-size:cover;background-position:center 55%;"></div>
+    <div class="hero-slide" id="slide3" style="background-image:url('/hero1.jpg');background-size:cover;background-position:center 30%;"></div>
+    <!-- Pelota Trionda -->
+    <img src="/trionda.png" class="hero-ball" alt="Trionda 2026"/>
+    <img src="/trionda.png" class="hero-ball-left" alt=""/>
     <div class="hero-eyebrow">⚽ <img src="https://flagcdn.com/w20/ca.png" alt="Canadá" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <img src="https://flagcdn.com/w20/mx.png" alt="México" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <img src="https://flagcdn.com/w20/us.png" alt="USA" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <span>2026</span></div>
     <h1 data-es="EL PRODE<br><span>MUNDIAL</span><br>2026" data-en="THE WORLD CUP<br><span>PREDICTOR</span><br>2026">EL PRODE<br><span>MUNDIAL</span><br>2026</h1>
     <p class="hero-sub" data-es="Pronosticá los partidos, competí con amigos, clientes, familia o tu empresa y viví el Mundial como nunca antes." data-en="Predict the matches, compete with friends, clients, family or your company and experience the World Cup like never before.">
