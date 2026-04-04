@@ -80,16 +80,22 @@
     .hero > * { position: relative; z-index: 2; }
     .hero-ball {
       position: absolute; right: 3%; top: 50%; transform: translateY(-50%);
-      width: clamp(180px, 22vw, 340px); opacity: 0.18;
+      width: clamp(160px, 20vw, 300px);
+      height: clamp(160px, 20vw, 300px);
+      opacity: 0.20;
       animation: rotateBall 18s linear infinite;
       z-index: 1;
-      filter: drop-shadow(0 0 40px rgba(212,175,55,0.3));
+      filter: drop-shadow(0 0 30px rgba(212,175,55,0.25));
+      display: flex; align-items: center; justify-content: center;
     }
     .hero-ball-left {
       position: absolute; left: 2%; top: 15%;
-      width: clamp(80px, 10vw, 160px); opacity: 0.10;
+      width: clamp(70px, 9vw, 140px);
+      height: clamp(70px, 9vw, 140px);
+      opacity: 0.09;
       animation: rotateBallRev 24s linear infinite;
       z-index: 1;
+      display: flex; align-items: center; justify-content: center;
     }
     @keyframes rotateBall { from { transform: translateY(-50%) rotate(0deg); } to { transform: translateY(-50%) rotate(360deg); } }
     @keyframes rotateBallRev { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
@@ -480,66 +486,20 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-slide active" id="slide1" style="background-image:url('https://images.pexels.com/photos/46798/the-ball-stadion-football-the-pitch-46798.jpeg?auto=compress&cs=tinysrgb&w=1600');background-position:center 50%;"></div>
-    <div class="hero-slide" id="slide2" style="background-image:url('https://images.pexels.com/photos/1884574/pexels-photo-1884574.jpeg?auto=compress&cs=tinysrgb&w=1600');background-position:center 40%;"></div>
-    <div class="hero-slide" id="slide3" style="background-image:url('https://images.pexels.com/photos/274422/pexels-photo-274422.jpeg?auto=compress&cs=tinysrgb&w=1600');background-position:center 50%;"></div>
-    <!-- TRIONDA — Balón oficial Mundial 2026 -->
-    <svg class="hero-ball" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <clipPath id="bc1"><circle cx="100" cy="100" r="93"/></clipPath>
-        <radialGradient id="bg1" cx="42%" cy="38%">
-          <stop offset="0%" stop-color="#ffffff"/>
-          <stop offset="100%" stop-color="#e8e8e8"/>
-        </radialGradient>
-      </defs>
-      <!-- Base -->
-      <circle cx="100" cy="100" r="93" fill="url(#bg1)"/>
-      <!-- Pentágono central superior — DORADO (trofeo) -->
-      <polygon points="100,38 118,51 111,72 89,72 82,51" fill="#C9A84C" clip-path="url(#bc1)"/>
-      <!-- Pentágono superior derecho — ROJO Canadá -->
-      <polygon points="133,55 155,55 163,76 147,90 127,82" fill="#CC0001" clip-path="url(#bc1)"/>
-      <!-- Pentágono derecho — AZUL USA -->
-      <polygon points="160,95 170,118 153,133 135,125 133,103" fill="#002868" clip-path="url(#bc1)"/>
-      <!-- Pentágono inferior derecho — VERDE México -->
-      <polygon points="130,148 112,162 92,162 76,148 83,128" fill="#006847" clip-path="url(#bc1)"/>
-      <!-- Pentágono inferior izquierdo — ROJO Canadá -->
-      <polygon points="67,148 50,133 53,110 72,100 88,112" fill="#CC0001" clip-path="url(#bc1)"/>
-      <!-- Pentágono izquierdo — VERDE México -->
-      <polygon points="40,95 53,72 73,68 83,88 70,108" fill="#006847" clip-path="url(#bc1)"/>
-      <!-- Hexágonos blancos entre pentágonos (costuras) -->
-      <polygon points="100,72 118,82 118,100 100,110 82,100 82,82" fill="white" opacity="0.7" clip-path="url(#bc1)"/>
-      <!-- Líneas de costura negras -->
-      <line x1="100" y1="38" x2="100" y2="72" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
-      <line x1="118" y1="51" x2="118" y2="82" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
-      <line x1="82" y1="51" x2="82" y2="82" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
-      <line x1="133" y1="55" x2="118" y2="82" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
-      <line x1="67" y1="55" x2="82" y2="82" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
-      <line x1="118" y1="100" x2="133" y2="103" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
-      <line x1="82" y1="100" x2="67" y2="103" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
-      <line x1="118" y1="118" x2="130" y2="128" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
-      <line x1="82" y1="118" x2="70" y2="128" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
-      <line x1="100" y1="110" x2="100" y2="128" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
-      <!-- Borde -->
-      <circle cx="100" cy="100" r="93" fill="none" stroke="#ccc" stroke-width="1"/>
-    </svg>
-    <svg class="hero-ball-left" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <clipPath id="bc2"><circle cx="100" cy="100" r="93"/></clipPath>
-        <radialGradient id="bg2" cx="42%" cy="38%">
-          <stop offset="0%" stop-color="#ffffff"/>
-          <stop offset="100%" stop-color="#e8e8e8"/>
-        </radialGradient>
-      </defs>
-      <circle cx="100" cy="100" r="93" fill="url(#bg2)"/>
-      <polygon points="100,38 118,51 111,72 89,72 82,51" fill="#C9A84C" clip-path="url(#bc2)"/>
-      <polygon points="133,55 155,55 163,76 147,90 127,82" fill="#CC0001" clip-path="url(#bc2)"/>
-      <polygon points="160,95 170,118 153,133 135,125 133,103" fill="#002868" clip-path="url(#bc2)"/>
-      <polygon points="130,148 112,162 92,162 76,148 83,128" fill="#006847" clip-path="url(#bc2)"/>
-      <polygon points="67,148 50,133 53,110 72,100 88,112" fill="#CC0001" clip-path="url(#bc2)"/>
-      <polygon points="40,95 53,72 73,68 83,88 70,108" fill="#006847" clip-path="url(#bc2)"/>
-      <polygon points="100,72 118,82 118,100 100,110 82,100 82,82" fill="white" opacity="0.7" clip-path="url(#bc2)"/>
-      <circle cx="100" cy="100" r="93" fill="none" stroke="#ccc" stroke-width="1"/>
-    </svg>
+    <div class="hero-slide active" id="slide1" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Estadio_Azteca_-_Club_América_vs._Cruz_Azul_%2820-04-2013%29.jpg/1280px-Estadio_Azteca_-_Club_América_vs._Cruz_Azul_%2820-04-2013%29.jpg');background-position:center 50%;"></div>
+    <div class="hero-slide" id="slide2" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/SoccerBall.svg/800px-SoccerBall.svg.png');background-position:center 40%;"></div>
+    <div class="hero-slide" id="slide3" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/SoFi_Stadium_-_exterior_%28cropped%29.jpg/1280px-SoFi_Stadium_-_exterior_%28cropped%29.jpg');background-position:center 50%;"></div>
+    <!-- Pelota Trionda — imagen local (public/trionda.png) -->
+    <div class="hero-ball" id="heroBall">
+      <img src="/trionda.png" alt="Trionda 2026"
+        onerror="this.parentElement.innerHTML='⚽'; this.parentElement.style.fontSize='clamp(120px,18vw,280px)'; this.parentElement.style.filter='none';"
+        style="width:100%;height:100%;object-fit:contain;"/>
+    </div>
+    <div class="hero-ball-left" id="heroBallLeft">
+      <img src="/trionda.png" alt=""
+        onerror="this.style.display='none';"
+        style="width:100%;height:100%;object-fit:contain;"/>
+    </div>
     <div class="hero-eyebrow">⚽ <img src="https://flagcdn.com/w20/ca.png" alt="Canadá" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <img src="https://flagcdn.com/w20/mx.png" alt="México" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <img src="https://flagcdn.com/w20/us.png" alt="USA" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <span>2026</span></div>
     <h1 data-es="EL PRODE<br><span>MUNDIAL</span><br>2026" data-en="THE WORLD CUP<br><span>PREDICTOR</span><br>2026">EL PRODE<br><span>MUNDIAL</span><br>2026</h1>
     <p class="hero-sub" data-es="Pronosticá los partidos, competí con amigos, clientes, familia o tu empresa y viví el Mundial como nunca antes." data-en="Predict the matches, compete with friends, clients, family or your company and experience the World Cup like never before.">
