@@ -480,46 +480,65 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-slide active" id="slide1" style="background-image:url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1600&q=80&fit=crop');background-position:center 40%;"></div>
-    <div class="hero-slide" id="slide2" style="background-image:url('https://images.unsplash.com/photo-1540747913346-19212a4f8d0c?w=1600&q=80&fit=crop');background-position:center 35%;"></div>
-    <div class="hero-slide" id="slide3" style="background-image:url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=1600&q=80&fit=crop');background-position:center 50%;"></div>
+    <div class="hero-slide active" id="slide1" style="background-image:url('https://images.pexels.com/photos/46798/the-ball-stadion-football-the-pitch-46798.jpeg?auto=compress&cs=tinysrgb&w=1600');background-position:center 50%;"></div>
+    <div class="hero-slide" id="slide2" style="background-image:url('https://images.pexels.com/photos/1884574/pexels-photo-1884574.jpeg?auto=compress&cs=tinysrgb&w=1600');background-position:center 40%;"></div>
+    <div class="hero-slide" id="slide3" style="background-image:url('https://images.pexels.com/photos/274422/pexels-photo-274422.jpeg?auto=compress&cs=tinysrgb&w=1600');background-position:center 50%;"></div>
     <!-- TRIONDA — Balón oficial Mundial 2026 -->
     <svg class="hero-ball" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <clipPath id="ballClip"><circle cx="100" cy="100" r="94"/></clipPath>
+        <clipPath id="bc1"><circle cx="100" cy="100" r="93"/></clipPath>
+        <radialGradient id="bg1" cx="42%" cy="38%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="100%" stop-color="#e8e8e8"/>
+        </radialGradient>
       </defs>
-      <!-- Base blanca -->
-      <circle cx="100" cy="100" r="94" fill="#f8f8f8"/>
-      <!-- Panel ROJO — Canadá (arriba izquierda) -->
-      <path d="M100 6 C70 6 45 18 28 38 L70 70 L100 55 Z" fill="#CC0001" clip-path="url(#ballClip)"/>
-      <!-- Panel AZUL — USA (derecha) -->
-      <path d="M172 62 C183 79 190 99 188 120 L145 115 L130 75 Z" fill="#002868" clip-path="url(#ballClip)"/>
-      <!-- Panel VERDE — México (abajo) -->
-      <path d="M55 160 C70 180 88 192 100 194 C112 192 130 180 145 160 L100 140 Z" fill="#006847" clip-path="url(#ballClip)"/>
-      <!-- Panel DORADO (arriba derecha, trofeo) -->
-      <path d="M100 55 L130 75 L120 100 L100 105 L80 100 L70 75 Z" fill="#D4AF37" opacity="0.85" clip-path="url(#ballClip)"/>
-      <!-- Líneas de costuras profundas -->
-      <path d="M100 6 L100 55" stroke="white" stroke-width="2" fill="none" clip-path="url(#ballClip)"/>
-      <path d="M28 38 L70 70" stroke="white" stroke-width="2" fill="none" clip-path="url(#ballClip)"/>
-      <path d="M172 62 L130 75" stroke="white" stroke-width="2" fill="none" clip-path="url(#ballClip)"/>
-      <path d="M145 160 L120 130" stroke="white" stroke-width="2" fill="none" clip-path="url(#ballClip)"/>
-      <path d="M55 160 L80 130" stroke="white" stroke-width="2" fill="none" clip-path="url(#ballClip)"/>
-      <path d="M12 100 L70 100" stroke="white" stroke-width="2" fill="none" clip-path="url(#ballClip)"/>
-      <path d="M188 100 L130 100" stroke="white" stroke-width="2" fill="none" clip-path="url(#ballClip)"/>
-      <!-- Ícono estrella USA (en panel azul) -->
-      <text x="155" y="95" font-size="12" fill="white" text-anchor="middle" opacity="0.9">★</text>
-      <!-- Borde exterior -->
-      <circle cx="100" cy="100" r="94" fill="none" stroke="#ddd" stroke-width="1.5"/>
-      <circle cx="100" cy="100" r="94" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="3"/>
+      <!-- Base -->
+      <circle cx="100" cy="100" r="93" fill="url(#bg1)"/>
+      <!-- Pentágono central superior — DORADO (trofeo) -->
+      <polygon points="100,38 118,51 111,72 89,72 82,51" fill="#C9A84C" clip-path="url(#bc1)"/>
+      <!-- Pentágono superior derecho — ROJO Canadá -->
+      <polygon points="133,55 155,55 163,76 147,90 127,82" fill="#CC0001" clip-path="url(#bc1)"/>
+      <!-- Pentágono derecho — AZUL USA -->
+      <polygon points="160,95 170,118 153,133 135,125 133,103" fill="#002868" clip-path="url(#bc1)"/>
+      <!-- Pentágono inferior derecho — VERDE México -->
+      <polygon points="130,148 112,162 92,162 76,148 83,128" fill="#006847" clip-path="url(#bc1)"/>
+      <!-- Pentágono inferior izquierdo — ROJO Canadá -->
+      <polygon points="67,148 50,133 53,110 72,100 88,112" fill="#CC0001" clip-path="url(#bc1)"/>
+      <!-- Pentágono izquierdo — VERDE México -->
+      <polygon points="40,95 53,72 73,68 83,88 70,108" fill="#006847" clip-path="url(#bc1)"/>
+      <!-- Hexágonos blancos entre pentágonos (costuras) -->
+      <polygon points="100,72 118,82 118,100 100,110 82,100 82,82" fill="white" opacity="0.7" clip-path="url(#bc1)"/>
+      <!-- Líneas de costura negras -->
+      <line x1="100" y1="38" x2="100" y2="72" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
+      <line x1="118" y1="51" x2="118" y2="82" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
+      <line x1="82" y1="51" x2="82" y2="82" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
+      <line x1="133" y1="55" x2="118" y2="82" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
+      <line x1="67" y1="55" x2="82" y2="82" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
+      <line x1="118" y1="100" x2="133" y2="103" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
+      <line x1="82" y1="100" x2="67" y2="103" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
+      <line x1="118" y1="118" x2="130" y2="128" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
+      <line x1="82" y1="118" x2="70" y2="128" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
+      <line x1="100" y1="110" x2="100" y2="128" stroke="#222" stroke-width="1.2" clip-path="url(#bc1)"/>
+      <!-- Borde -->
+      <circle cx="100" cy="100" r="93" fill="none" stroke="#ccc" stroke-width="1"/>
     </svg>
     <svg class="hero-ball-left" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <defs><clipPath id="ballClip2"><circle cx="100" cy="100" r="94"/></clipPath></defs>
-      <circle cx="100" cy="100" r="94" fill="#f8f8f8"/>
-      <path d="M100 6 C70 6 45 18 28 38 L70 70 L100 55 Z" fill="#CC0001" clip-path="url(#ballClip2)"/>
-      <path d="M172 62 C183 79 190 99 188 120 L145 115 L130 75 Z" fill="#002868" clip-path="url(#ballClip2)"/>
-      <path d="M55 160 C70 180 88 192 100 194 C112 192 130 180 145 160 L100 140 Z" fill="#006847" clip-path="url(#ballClip2)"/>
-      <path d="M100 55 L130 75 L120 100 L100 105 L80 100 L70 75 Z" fill="#D4AF37" opacity="0.85" clip-path="url(#ballClip2)"/>
-      <circle cx="100" cy="100" r="94" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="3"/>
+      <defs>
+        <clipPath id="bc2"><circle cx="100" cy="100" r="93"/></clipPath>
+        <radialGradient id="bg2" cx="42%" cy="38%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="100%" stop-color="#e8e8e8"/>
+        </radialGradient>
+      </defs>
+      <circle cx="100" cy="100" r="93" fill="url(#bg2)"/>
+      <polygon points="100,38 118,51 111,72 89,72 82,51" fill="#C9A84C" clip-path="url(#bc2)"/>
+      <polygon points="133,55 155,55 163,76 147,90 127,82" fill="#CC0001" clip-path="url(#bc2)"/>
+      <polygon points="160,95 170,118 153,133 135,125 133,103" fill="#002868" clip-path="url(#bc2)"/>
+      <polygon points="130,148 112,162 92,162 76,148 83,128" fill="#006847" clip-path="url(#bc2)"/>
+      <polygon points="67,148 50,133 53,110 72,100 88,112" fill="#CC0001" clip-path="url(#bc2)"/>
+      <polygon points="40,95 53,72 73,68 83,88 70,108" fill="#006847" clip-path="url(#bc2)"/>
+      <polygon points="100,72 118,82 118,100 100,110 82,100 82,82" fill="white" opacity="0.7" clip-path="url(#bc2)"/>
+      <circle cx="100" cy="100" r="93" fill="none" stroke="#ccc" stroke-width="1"/>
     </svg>
     <div class="hero-eyebrow">⚽ <img src="https://flagcdn.com/w20/ca.png" alt="Canadá" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <img src="https://flagcdn.com/w20/mx.png" alt="México" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <img src="https://flagcdn.com/w20/us.png" alt="USA" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <span>2026</span></div>
     <h1 data-es="EL PRODE<br><span>MUNDIAL</span><br>2026" data-en="THE WORLD CUP<br><span>PREDICTOR</span><br>2026">EL PRODE<br><span>MUNDIAL</span><br>2026</h1>
