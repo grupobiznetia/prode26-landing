@@ -403,7 +403,7 @@
       55% {transform:scaleY(0);}
       100%{transform:scaleY(1);}
     }
-    @media(max-width:900px){#splitflap{display:none;}}
+    @media(max-width:1200px){#splitflap{display:none;}}
 
     /* ── MOBILE TICKER ── */
     .mobile-ticker {
@@ -542,7 +542,7 @@
   </nav>
 
   <div class="mobile-ticker"><div class="ticker-track" id="ticker-track"></div></div>
-  <div id="splitflap" style="position:fixed;left:18%;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:4px;pointer-events:none;width:200px;">
+  <div id="splitflap" style="position:fixed;left:1%;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:4px;pointer-events:none;width:185px;">
     <div class="sf-row"><div class="sf-char" data-row="0">P</div><div class="sf-char" data-row="0">R</div><div class="sf-char" data-row="0">O</div><div class="sf-char" data-row="0">D</div><div class="sf-char" data-row="0">E</div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div></div>
     <div class="sf-row"><div class="sf-char" data-row="1">Q</div><div class="sf-char" data-row="1">U</div><div class="sf-char" data-row="1">I</div><div class="sf-char" data-row="1">N</div><div class="sf-char" data-row="1">I</div><div class="sf-char" data-row="1">E</div><div class="sf-char" data-row="1">L</div><div class="sf-char" data-row="1">A</div><div class="sf-char" data-row="1"></div><div class="sf-char" data-row="1"></div><div class="sf-char" data-row="1"></div><div class="sf-char" data-row="1"></div></div>
     <div class="sf-row"><div class="sf-char" data-row="2">P</div><div class="sf-char" data-row="2">O</div><div class="sf-char" data-row="2">L</div><div class="sf-char" data-row="2">L</div><div class="sf-char" data-row="2">A</div><div class="sf-char" data-row="2"> </div><div class="sf-char" data-row="2">G</div><div class="sf-char" data-row="2">O</div><div class="sf-char" data-row="2">L</div><div class="sf-char" data-row="2"></div><div class="sf-char" data-row="2"></div><div class="sf-char" data-row="2"></div></div>
@@ -1043,15 +1043,32 @@
       var ROWS=10,MAX=12;
       function init(){
         var rows=document.querySelectorAll('#splitflap .sf-row');
-        if(!rows.length)return;
+        if(!rows.length){setTimeout(init,200);return;}
         var rowData=[];
-        rows.forEach(function(row,i){rowData.push({cells:row.querySelectorAll('.sf-char'),wordIdx:i%words.length});});
-        function updateRow(r){
-          var d=rowData[r],nw=words[(d.wordIdx=(d.wordIdx+1)%words.length)].slice(0,MAX);
-          d.cells.forEach(function(c,i){c.style.opacity='0';setTimeout(function(){c.textContent=nw[i]||'';c.style.opacity='1';},80);});
+        for(var i=0;i<rows.length;i++){
+          var cells=rows[i].querySelectorAll('.sf-char');
+          rowData.push({cells:cells,wordIdx:i%words.length});
         }
-        function run(){var r=0;function next(){if(r<ROWS){updateRow(r);r++;setTimeout(next,150);}else{setTimeout(run,700);}}next();}
-        run();
+        function updateRow(r){
+          var d=rowData[r];
+          d.wordIdx=(d.wordIdx+1)%words.length;
+          var nw=words[d.wordIdx].slice(0,MAX);
+          for(var i=0;i<d.cells.length;i++){
+            (function(cell,ch){
+              cell.style.opacity='0';
+              setTimeout(function(){cell.textContent=ch;cell.style.opacity='1';},90);
+            })(d.cells[i], nw[i]||'');
+          }
+        }
+        function run(){
+          var r=0;
+          function next(){
+            if(r<rows.length){updateRow(r);r++;setTimeout(next,160);}
+            else{setTimeout(run,800);}
+          }
+          next();
+        }
+        setTimeout(run,500);
       }
       if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
     })();
