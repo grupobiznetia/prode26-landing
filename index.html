@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prode Mundial 2026 — Competí con tus amigos y tu empresa</title>
+  <title>MatePlay26 — Los Pronósticos del Mundial 2026</title>
   <meta name="description" content="El prode oficial del Mundial 2026. Creá tu grupo, pronosticá los partidos y competí con amigos, familia o tu empresa. Gratis para empezar.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -381,6 +381,55 @@
       padding: 16px; text-align: center; color: #4ade80; font-weight: 600;
       display: none;
     }
+
+    /* ── SPLIT-FLAP ── */
+    .splitflap-wrap {
+      position: absolute; left: 3%; top: 50%; transform: translateY(-50%);
+      width: clamp(140px, 14vw, 220px);
+      display: flex; flex-direction: column; gap: 4px;
+      z-index: 2;
+    }
+    .flap-row {
+      background: #0d1829; border: 1px solid #1e3a5a; border-radius: 6px;
+      padding: 5px 10px; overflow: hidden; height: 28px;
+      display: flex; align-items: center;
+      position: relative;
+    }
+    .flap-text {
+      font-family: 'Courier New', monospace; font-size: 11px;
+      color: #e8c84a; font-weight: 700; letter-spacing: 0.5px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      width: 100%;
+      animation: flapIn .25s ease both;
+    }
+    @keyframes flapIn {
+      from { opacity: 0; transform: rotateX(-90deg); }
+      to   { opacity: 1; transform: rotateX(0deg); }
+    }
+    @media (max-width: 768px) { .splitflap-wrap { display: none; } }
+
+    /* ── MOBILE TICKER ── */
+    .mobile-ticker {
+      display: none;
+      background: #e8c84a; overflow: hidden;
+      height: 32px; align-items: center;
+      position: sticky; top: 64px; z-index: 98;
+    }
+    @media (max-width: 768px) { .mobile-ticker { display: flex; } }
+    .ticker-track {
+      display: flex; gap: 0; white-space: nowrap;
+      animation: tickerScroll 40s linear infinite;
+    }
+    .ticker-item {
+      font-family: 'Bebas Neue', sans-serif; font-size: 13px;
+      color: #000; padding: 0 20px; letter-spacing: 1px;
+      flex-shrink: 0;
+    }
+    .ticker-item::after { content: ' · '; opacity: 0.4; }
+    @keyframes tickerScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
   </style>
   <script>
     const SUPABASE_URL = 'https://lusauslgwjrdbqyragbp.supabase.co'
@@ -482,8 +531,7 @@
   <!-- NAV -->
   <nav id="navbar">
     <a href="#" class="nav-logo">
-      <span class="nav-logo-badge">FIFA</span>
-      <span class="nav-logo-text">Prode <span>2026</span></span>
+      <span class="nav-logo-text">MATEPLAY<span>26</span></span>
     </a>
     <div class="nav-links">
       <a href="#como" data-es="Cómo funciona" data-en="How it works">Cómo funciona</a>
@@ -494,10 +542,15 @@
         <button class="active" onclick="setLang('es')">ES</button>
         <button onclick="setLang('en')">EN</button>
       </div>
-      <a href="https://prode26-5qup.vercel.app" class="nav-cta" data-es="Empezar gratis" data-en="Start free">Empezar gratis</a>
+      <a href="https://app.mateplay26.com" class="nav-cta" data-es="Empezar gratis" data-en="Start free">Empezar gratis</a>
     </div>
     <button class="nav-mobile-menu" onclick="toggleMobileMenu()">☰</button>
   </nav>
+
+  <!-- MOBILE TICKER -->
+  <div class="mobile-ticker">
+    <div class="ticker-track" id="ticker-track"></div>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -507,13 +560,14 @@
     <!-- Pelota Trionda -->
     <img src="/trionda.png" class="hero-ball" alt="Trionda 2026"/>
     <img src="/trionda.png" class="hero-ball-left" alt=""/>
+    <div class="splitflap-wrap" id="splitflap"></div>
     <div class="hero-eyebrow">⚽ <img src="https://flagcdn.com/w20/ca.png" alt="Canadá" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <img src="https://flagcdn.com/w20/mx.png" alt="México" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <img src="https://flagcdn.com/w20/us.png" alt="USA" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <span>2026</span></div>
-    <h1 data-es="EL PRODE<br><span>MUNDIAL</span><br>2026" data-en="THE WORLD CUP<br><span>PREDICTOR</span><br>2026">EL PRODE<br><span>MUNDIAL</span><br>2026</h1>
+    <h1 data-es="LOS PRONÓSTICOS<br><span>DEL MUNDIAL</span><br>2026" data-en="THE WORLD CUP<br><span>PREDICTIONS</span><br>2026">LOS PRONÓSTICOS<br><span>DEL MUNDIAL</span><br>2026</h1>
     <p class="hero-sub" data-es="Pronosticá los partidos, competí con amigos, clientes, familia o tu empresa y viví el Mundial como nunca antes." data-en="Predict the matches, compete with friends, clients, family or your company and experience the World Cup like never before.">
       Pronosticá los partidos, competí con amigos, clientes, familia o tu empresa y viví el Mundial como nunca antes.
     </p>
     <div class="hero-buttons">
-      <a href="https://prode26-5qup.vercel.app" class="btn-primary" data-es="Crear mi grupo gratis" data-en="Create my free group">Crear mi grupo gratis</a>
+      <a href="https://app.mateplay26.com" class="btn-primary" data-es="Crear mi grupo gratis" data-en="Create my free group">Crear mi grupo gratis</a>
       <a href="#como" class="btn-secondary" data-es="Ver cómo funciona" data-en="See how it works">Ver cómo funciona</a>
     </div>
     <div class="hero-stats">
@@ -604,7 +658,7 @@
             <li data-es="Logo de empresa incluido" data-en="Company logo included">Logo de empresa incluido</li>
             <li data-es="Acceso completo 7 días" data-en="Full access 7 days">Acceso completo 7 días</li>
           </ul>
-          <a href="https://prode26-5qup.vercel.app" class="plan-cta" data-es="Empezar gratis" data-en="Start free">Empezar gratis</a>
+          <a href="https://app.mateplay26.com" class="plan-cta" data-es="Empezar gratis" data-en="Start free">Empezar gratis</a>
         </div>
 
         <div class="plan-card">
@@ -620,7 +674,7 @@
             <li data-es="Gratis para siempre" data-en="Free forever">Gratis para siempre</li>
             <li data-es="Sin logo de empresa" data-en="No company logo">Sin logo de empresa</li>
           </ul>
-          <a href="https://prode26-5qup.vercel.app" class="plan-cta" data-es="Elegir Family" data-en="Choose Family">Elegir Family</a>
+          <a href="https://app.mateplay26.com" class="plan-cta" data-es="Elegir Family" data-en="Choose Family">Elegir Family</a>
         </div>
 
         <div class="plan-card">
@@ -637,7 +691,7 @@
             <li data-es="Logo de empresa" data-en="Company logo">Logo de empresa</li>
             <li data-es="Ranking en tiempo real" data-en="Real-time ranking">Ranking en tiempo real</li>
           </ul>
-          <a href="https://prode26-5qup.vercel.app" class="plan-cta" data-es="Elegir Small" data-en="Choose Small">Elegir Small</a>
+          <a href="https://app.mateplay26.com" class="plan-cta" data-es="Elegir Small" data-en="Choose Small">Elegir Small</a>
         </div>
 
         <div class="plan-card featured">
@@ -655,7 +709,7 @@
             <li data-es="Logo de empresa" data-en="Company logo">Logo de empresa</li>
             <li data-es="Ranking en tiempo real" data-en="Real-time ranking">Ranking en tiempo real</li>
           </ul>
-          <a href="https://prode26-5qup.vercel.app" class="plan-cta" data-es="Elegir Middle" data-en="Choose Middle">Elegir Middle</a>
+          <a href="https://app.mateplay26.com" class="plan-cta" data-es="Elegir Middle" data-en="Choose Middle">Elegir Middle</a>
         </div>
 
         <div class="plan-card">
@@ -672,7 +726,7 @@
             <li data-es="Logo de empresa" data-en="Company logo">Logo de empresa</li>
             <li data-es="Ranking en tiempo real" data-en="Real-time ranking">Ranking en tiempo real</li>
           </ul>
-          <a href="https://prode26-5qup.vercel.app" class="plan-cta" data-es="Elegir Middle+" data-en="Choose Middle+">Elegir Middle+</a>
+          <a href="https://app.mateplay26.com" class="plan-cta" data-es="Elegir Middle+" data-en="Choose Middle+">Elegir Middle+</a>
         </div>
 
         <div class="plan-card">
@@ -886,18 +940,18 @@
     <div class="container">
       <h2 data-es="¿LISTO PARA EL<br><span>MUNDIAL?</span>" data-en="READY FOR THE<br><span>WORLD CUP?</span>">¿LISTO PARA EL<br><span>MUNDIAL?</span></h2>
       <p data-es="Creá tu grupo gratis hoy. En 5 minutos estás jugando." data-en="Create your free group today. In 5 minutes you're playing.">Creá tu grupo gratis hoy. En 5 minutos estás jugando.</p>
-      <a href="https://prode26-5qup.vercel.app" class="btn-primary" data-es="Empezar gratis →" data-en="Start free →">Empezar gratis →</a>
+      <a href="https://app.mateplay26.com" class="btn-primary" data-es="Empezar gratis →" data-en="Start free →">Empezar gratis →</a>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
     <div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#64748b;letter-spacing:1px;">PRODE <span style="color:#e8c84a;">2026</span></span>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#64748b;letter-spacing:1px;">MATEPLAY<span style="color:#e8c84a;">26</span></span>
       <span style="margin-left:16px;font-size:12px;display:inline-flex;align-items:center;gap:4px;"><img src="https://flagcdn.com/w20/ca.png" alt="CA" style="height:12px;border-radius:1px;"> <img src="https://flagcdn.com/w20/mx.png" alt="MX" style="height:12px;border-radius:1px;"> <img src="https://flagcdn.com/w20/us.png" alt="US" style="height:12px;border-radius:1px;"> 2026</span>
     </div>
     <div class="footer-links">
-      <a href="https://prode26-5qup.vercel.app" data-es="Ingresar a la app" data-en="Go to app">Ingresar a la app</a>
+      <a href="https://app.mateplay26.com" data-es="Ingresar a la app" data-en="Go to app">Ingresar a la app</a>
       <a href="/cdn-cgi/l/email-protection#35524740455a575c4f5b50415c54755258545c591b565a58" style="color:inherit;"><span class="__cf_email__" data-cfemail="177065626778757e6d7972637e7657707a767e7b3974787a">[email&#160;protected]</span></a>
     </div>
   </footer>
