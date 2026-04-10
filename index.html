@@ -383,43 +383,45 @@
     }
 
     /* ── SPLIT-FLAP ── */
-    #splitflap { display:flex; flex-direction:column; gap:4px; flex-shrink:0; }
-    .sf-row { display: flex; gap: 2px; height: 28px; }
+    #splitflap {
+      position:absolute; left:2%; top:50%; transform:translateY(-50%);
+      display:flex; flex-direction:column; gap:4px; z-index:2; pointer-events:none;
+      width:200px;
+    }
+    .sf-row { display:flex; gap:2px; height:26px; }
     .sf-char {
-      width: 16px; height: 28px;
-      background: #111; border: 1px solid #222; border-radius: 2px;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Courier New', monospace; font-size: 13px; font-weight: 700;
-      color: #bbb; flex-shrink: 0; overflow: hidden;
+      width:15px; height:26px; background:#0a0a0a; border:1px solid #1a1a1a;
+      border-radius:2px; display:flex; align-items:center; justify-content:center;
+      font-family:'Courier New',monospace; font-size:12px; font-weight:700;
+      color:#999; flex-shrink:0; overflow:hidden;
     }
-    .sf-char.flip { animation: sfFlip .08s ease-in-out forwards; }
+    .sf-char.flip { animation:sfFlip .1s ease-in-out forwards; }
     @keyframes sfFlip {
-      0%  { transform: scaleY(1); }
-      45% { transform: scaleY(0); }
-      55% { transform: scaleY(0); }
-      100%{ transform: scaleY(1); }
+      0%  {transform:scaleY(1);}
+      45% {transform:scaleY(0);}
+      55% {transform:scaleY(0);}
+      100%{transform:scaleY(1);}
     }
-    @media (max-width: 768px) { #splitflap { display: none; } }
+    @media(max-width:900px){#splitflap{display:none;}}
 
     /* ── MOBILE TICKER ── */
     .mobile-ticker {
-      display: none; background: #e8c84a; overflow: hidden;
-      height: 32px; align-items: center;
-      position: sticky; top: 64px; z-index: 98;
+      display:none; background:#e8c84a; overflow:hidden;
+      height:30px; align-items:center;
+      position:sticky; top:64px; z-index:98;
     }
-    @media (max-width: 768px) { .mobile-ticker { display: flex; } }
+    @media(max-width:900px){.mobile-ticker{display:flex;}}
     .ticker-track {
-      display: flex; white-space: nowrap;
-      animation: tickerScroll 40s linear infinite;
+      display:flex; white-space:nowrap;
+      animation:tickerScroll 35s linear infinite;
     }
     .ticker-item {
-      font-family: 'Bebas Neue', sans-serif; font-size: 13px;
-      color: #000; padding: 0 20px; letter-spacing: 1px; flex-shrink: 0;
+      font-family:'Bebas Neue',sans-serif; font-size:13px;
+      color:#000; padding:0 18px; letter-spacing:1px; flex-shrink:0;
     }
-    .ticker-item::after { content: ' · '; opacity: 0.4; }
     @keyframes tickerScroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+      from{transform:translateX(0);}
+      to{transform:translateX(-50%);}
     }
   </style>
   <script>
@@ -538,19 +540,16 @@
     <button class="nav-mobile-menu" onclick="toggleMobileMenu()">☰</button>
   </nav>
 
-  <!-- MOBILE TICKER -->
   <div class="mobile-ticker"><div class="ticker-track" id="ticker-track"></div></div>
-
   <!-- HERO -->
-  <section class="hero" style="flex-direction:row;justify-content:center;align-items:center;gap:40px;padding-left:5%;padding-right:5%;">
+  <section class="hero">
+    <div id="splitflap"></div>
     <div class="hero-slide active" id="slide1" style="background-image:url('/hero1.jpg');background-size:cover;background-position:center 40%;"></div>
     <div class="hero-slide" id="slide2" style="background-image:url('/hero1.jpg');background-size:cover;background-position:center 55%;"></div>
     <div class="hero-slide" id="slide3" style="background-image:url('/hero1.jpg');background-size:cover;background-position:center 30%;"></div>
     <!-- Pelota Trionda -->
     <img src="/trionda.png" class="hero-ball" alt="Trionda 2026"/>
     <img src="/trionda.png" class="hero-ball-left" alt=""/>
-    <div id="splitflap" style="display:flex;flex-direction:column;gap:4px;z-index:2;flex-shrink:0;"></div>
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;z-index:2;">
     <div class="hero-eyebrow">⚽ <img src="https://flagcdn.com/w20/ca.png" alt="Canadá" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <img src="https://flagcdn.com/w20/mx.png" alt="México" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <img src="https://flagcdn.com/w20/us.png" alt="USA" style="height:22px;vertical-align:middle;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"> <span>2026</span></div>
     <h1 data-es="LOS PRONÓSTICOS<br><span>DEL MUNDIAL</span><br>2026" data-en="THE WORLD CUP<br><span>PREDICTIONS</span><br>2026">LOS PRONÓSTICOS<br><span>DEL MUNDIAL</span><br>2026</h1>
     <p class="hero-sub" data-es="Pronosticá los partidos, competí con amigos, clientes, familia o tu empresa y viví el Mundial como nunca antes." data-en="Predict the matches, compete with friends, clients, family or your company and experience the World Cup like never before.">
@@ -560,7 +559,7 @@
       <a href="https://app.mateplay26.com" class="btn-primary" data-es="Crear mi grupo gratis" data-en="Create my free group">Crear mi grupo gratis</a>
       <a href="#como" class="btn-secondary" data-es="Ver cómo funciona" data-en="See how it works">Ver cómo funciona</a>
     </div>
-    </div><div class="hero-stats" style="position:relative;z-index:2;">
+    <div class="hero-stats">
       <div class="hero-stat">
         <div class="hero-stat-num"><span>48</span></div>
         <div class="hero-stat-label" data-es="Partidos" data-en="Matches">Partidos</div>
