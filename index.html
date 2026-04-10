@@ -394,7 +394,6 @@
       border-radius:2px; display:flex; align-items:center; justify-content:center;
       font-family:'Courier New',monospace; font-size:12px; font-weight:700;
       color:#999; flex-shrink:0; overflow:hidden;
-      transition: opacity 0.08s ease;
     }
     .sf-char.flip { animation:sfFlip .1s ease-in-out forwards; }
     @keyframes sfFlip {
@@ -403,7 +402,7 @@
       55% {transform:scaleY(0);}
       100%{transform:scaleY(1);}
     }
-    @media(max-width:1200px){#splitflap{display:none;}}
+    @media(max-width:900px){#splitflap{display:none;}}
 
     /* ── MOBILE TICKER ── */
     .mobile-ticker {
@@ -423,6 +422,25 @@
     @keyframes tickerScroll {
       from{transform:translateX(0);}
       to{transform:translateX(-50%);}
+    }
+
+    /* ── TICKER ── */
+    .ticker {
+      background: #e8c84a; overflow: hidden; height: 32px;
+      display: flex; align-items: center;
+      position: sticky; top: 64px; z-index: 98;
+    }
+    .ticker-track {
+      display: flex; white-space: nowrap;
+      animation: tickerMove 35s linear infinite;
+    }
+    .ticker-item {
+      font-family: 'Bebas Neue', sans-serif; font-size: 14px;
+      color: #000; padding: 0 20px; letter-spacing: 1px; flex-shrink: 0;
+    }
+    @keyframes tickerMove {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
   </style>
   <script>
@@ -542,18 +560,8 @@
   </nav>
 
   <div class="mobile-ticker"><div class="ticker-track" id="ticker-track"></div></div>
-  <div id="splitflap" style="position:fixed;left:0.5%;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:4px;pointer-events:none;width:180px;">
-    <div class="sf-row"><div class="sf-char" data-row="0">P</div><div class="sf-char" data-row="0">R</div><div class="sf-char" data-row="0">O</div><div class="sf-char" data-row="0">D</div><div class="sf-char" data-row="0">E</div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div></div>
-    <div class="sf-row"><div class="sf-char" data-row="1">Q</div><div class="sf-char" data-row="1">U</div><div class="sf-char" data-row="1">I</div><div class="sf-char" data-row="1">N</div><div class="sf-char" data-row="1">I</div><div class="sf-char" data-row="1">E</div><div class="sf-char" data-row="1">L</div><div class="sf-char" data-row="1">A</div><div class="sf-char" data-row="1"></div><div class="sf-char" data-row="1"></div><div class="sf-char" data-row="1"></div><div class="sf-char" data-row="1"></div></div>
-    <div class="sf-row"><div class="sf-char" data-row="2">P</div><div class="sf-char" data-row="2">O</div><div class="sf-char" data-row="2">L</div><div class="sf-char" data-row="2">L</div><div class="sf-char" data-row="2">A</div><div class="sf-char" data-row="2"> </div><div class="sf-char" data-row="2">G</div><div class="sf-char" data-row="2">O</div><div class="sf-char" data-row="2">L</div><div class="sf-char" data-row="2"></div><div class="sf-char" data-row="2"></div><div class="sf-char" data-row="2"></div></div>
-    <div class="sf-row"><div class="sf-char" data-row="3">B</div><div class="sf-char" data-row="3">O</div><div class="sf-char" data-row="3">L</div><div class="sf-char" data-row="3">A</div><div class="sf-char" data-row="3">O</div><div class="sf-char" data-row="3"></div><div class="sf-char" data-row="3"></div><div class="sf-char" data-row="3"></div><div class="sf-char" data-row="3"></div><div class="sf-char" data-row="3"></div><div class="sf-char" data-row="3"></div><div class="sf-char" data-row="3"></div></div>
-    <div class="sf-row"><div class="sf-char" data-row="4">P</div><div class="sf-char" data-row="4">A</div><div class="sf-char" data-row="4">L</div><div class="sf-char" data-row="4">P</div><div class="sf-char" data-row="4">I</div><div class="sf-char" data-row="4">T</div><div class="sf-char" data-row="4">E</div><div class="sf-char" data-row="4"></div><div class="sf-char" data-row="4"></div><div class="sf-char" data-row="4"></div><div class="sf-char" data-row="4"></div><div class="sf-char" data-row="4"></div></div>
-    <div class="sf-row"><div class="sf-char" data-row="5">S</div><div class="sf-char" data-row="5">P</div><div class="sf-char" data-row="5">O</div><div class="sf-char" data-row="5">R</div><div class="sf-char" data-row="5">T</div><div class="sf-char" data-row="5">S</div><div class="sf-char" data-row="5"> </div><div class="sf-char" data-row="5">B</div><div class="sf-char" data-row="5">E</div><div class="sf-char" data-row="5">T</div><div class="sf-char" data-row="5"></div><div class="sf-char" data-row="5"></div></div>
-    <div class="sf-row"><div class="sf-char" data-row="6">O</div><div class="sf-char" data-row="6">F</div><div class="sf-char" data-row="6">F</div><div class="sf-char" data-row="6">I</div><div class="sf-char" data-row="6">C</div><div class="sf-char" data-row="6">E</div><div class="sf-char" data-row="6"> </div><div class="sf-char" data-row="6">P</div><div class="sf-char" data-row="6">O</div><div class="sf-char" data-row="6">O</div><div class="sf-char" data-row="6">L</div><div class="sf-char" data-row="6"></div></div>
-    <div class="sf-row"><div class="sf-char" data-row="7">P</div><div class="sf-char" data-row="7">I</div><div class="sf-char" data-row="7">C</div><div class="sf-char" data-row="7">K</div><div class="sf-char" data-row="7">E</div><div class="sf-char" data-row="7">M</div><div class="sf-char" data-row="7"></div><div class="sf-char" data-row="7"></div><div class="sf-char" data-row="7"></div><div class="sf-char" data-row="7"></div><div class="sf-char" data-row="7"></div><div class="sf-char" data-row="7"></div></div>
-    <div class="sf-row"><div class="sf-char" data-row="8">F</div><div class="sf-char" data-row="8">A</div><div class="sf-char" data-row="8">N</div><div class="sf-char" data-row="8">T</div><div class="sf-char" data-row="8">A</div><div class="sf-char" data-row="8">S</div><div class="sf-char" data-row="8">Y</div><div class="sf-char" data-row="8"></div><div class="sf-char" data-row="8"></div><div class="sf-char" data-row="8"></div><div class="sf-char" data-row="8"></div><div class="sf-char" data-row="8"></div></div>
-    <div class="sf-row"><div class="sf-char" data-row="9">P</div><div class="sf-char" data-row="9">A</div><div class="sf-char" data-row="9">R</div><div class="sf-char" data-row="9">L</div><div class="sf-char" data-row="9">A</div><div class="sf-char" data-row="9">Y</div><div class="sf-char" data-row="9"></div><div class="sf-char" data-row="9"></div><div class="sf-char" data-row="9"></div><div class="sf-char" data-row="9"></div><div class="sf-char" data-row="9"></div><div class="sf-char" data-row="9"></div></div>
-    </div>
+  <div id="splitflap" style="position:fixed;left:2%;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:4px;pointer-events:none;width:200px;"></div>
+  <div class="ticker"><div class="ticker-track"><span class="ticker-item">Prode</span><span class="ticker-item">Quiniela</span><span class="ticker-item">Polla Gol</span><span class="ticker-item">Bolão</span><span class="ticker-item">Palpite</span><span class="ticker-item">Sports Betting</span><span class="ticker-item">Office Pool</span><span class="ticker-item">Pick'em</span><span class="ticker-item">Fantasy League</span><span class="ticker-item">Parlay</span><span class="ticker-item">Accumulator</span><span class="ticker-item">Footy Tipping</span><span class="ticker-item">Loto Foot</span><span class="ticker-item">Totocalcio</span><span class="ticker-item">Toto</span><span class="ticker-item">Pulpo Paul</span><span class="ticker-item">TAB Betting</span><span class="ticker-item">Pronóstico</span><span class="ticker-item">Wagering</span><span class="ticker-item">Prediction</span><span class="ticker-item">Bracket</span><span class="ticker-item">Paris Sportifs</span><span class="ticker-item">Totobola</span><span class="ticker-item">Peña</span><span class="ticker-item">Polla Bet</span><span class="ticker-item">Prode</span><span class="ticker-item">Quiniela</span><span class="ticker-item">Polla Gol</span><span class="ticker-item">Bolão</span><span class="ticker-item">Palpite</span><span class="ticker-item">Sports Betting</span><span class="ticker-item">Office Pool</span><span class="ticker-item">Pick'em</span><span class="ticker-item">Fantasy League</span><span class="ticker-item">Parlay</span><span class="ticker-item">Accumulator</span><span class="ticker-item">Footy Tipping</span><span class="ticker-item">Loto Foot</span><span class="ticker-item">Totocalcio</span><span class="ticker-item">Toto</span><span class="ticker-item">Pulpo Paul</span><span class="ticker-item">TAB Betting</span><span class="ticker-item">Pronóstico</span><span class="ticker-item">Wagering</span><span class="ticker-item">Prediction</span><span class="ticker-item">Bracket</span><span class="ticker-item">Paris Sportifs</span><span class="ticker-item">Totobola</span><span class="ticker-item">Peña</span><span class="ticker-item">Polla Bet</span></div></div>
   <!-- HERO -->
   <section class="hero">
     <div class="hero-slide active" id="slide1" style="background-image:url('/hero1.jpg');background-size:cover;background-position:center 40%;"></div>
@@ -1036,52 +1044,6 @@
       }
     }
 
-
-    // ── SPLIT-FLAP ──
-    ;(function(){
-      var words=['PRODE','QUINIELA','POLLA GOL','BOLAO','PALPITE','SPORTS BET','OFFICE POOL','PICKEM','FANTASY','PARLAY','ACCUMULATOR','FOOTY TIP','LOTO FOOT','TOTOCALCIO','TOTO','PULPO PAUL','TAB BETTING','PRONOSTICO','WAGERING','PREDICTION','BRACKET','PARIS SPORT','TOTOBOLA','SPORT BET','PENA'];
-      var ROWS=10,MAX=12;
-      function init(){
-        var rows=document.querySelectorAll('#splitflap .sf-row');
-        if(!rows.length){setTimeout(init,200);return;}
-        var rowData=[];
-        for(var i=0;i<rows.length;i++){
-          var cells=rows[i].querySelectorAll('.sf-char');
-          rowData.push({cells:cells,wordIdx:i%words.length});
-        }
-        function updateRow(r){
-          var d=rowData[r];
-          d.wordIdx=(d.wordIdx+1)%words.length;
-          var nw=words[d.wordIdx].slice(0,MAX);
-          for(var i=0;i<d.cells.length;i++){
-            (function(cell,ch){
-              cell.style.opacity='0';
-              setTimeout(function(){cell.textContent=ch;cell.style.opacity='1';},90);
-            })(d.cells[i], nw[i]||'');
-          }
-        }
-        function run(){
-          var r=0;
-          function next(){
-            if(r<rows.length){updateRow(r);r++;setTimeout(next,160);}
-            else{setTimeout(run,800);}
-          }
-          next();
-        }
-        setTimeout(run,500);
-      }
-      window.addEventListener('load', init);
-    })();
-
-    // ── TICKER ──
-    ;(function(){
-      var words=['Prode','Quiniela','Polla Gol','Bolão','Palpite','Sports Betting','Office Pool','Pickem','Fantasy','Parlay','Accumulator','Footy Tipping','Loto Foot','Totocalcio','Toto','Pulpo Paul','TAB Betting','Pronóstico','Wagering','Prediction','Bracket','Paris Sportifs'];
-      function init(){
-        var track=document.getElementById('ticker-track');if(!track||track.children.length)return;
-        var all=words.concat(words);all.forEach(function(w){var s=document.createElement('span');s.className='ticker-item';s.textContent=w+' ·';track.appendChild(s);});
-      }
-      if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
-    })();
     // ── HERO SLIDESHOW ──
     ;(function() {
       var slides = [
