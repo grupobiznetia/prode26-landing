@@ -542,7 +542,7 @@
   </nav>
 
   <div class="mobile-ticker"><div class="ticker-track" id="ticker-track"></div></div>
-  <div id="splitflap" style="position:fixed;left:1%;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:4px;pointer-events:none;width:185px;">
+  <div id="splitflap" style="position:fixed;left:0.5%;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:4px;pointer-events:none;width:180px;">
     <div class="sf-row"><div class="sf-char" data-row="0">P</div><div class="sf-char" data-row="0">R</div><div class="sf-char" data-row="0">O</div><div class="sf-char" data-row="0">D</div><div class="sf-char" data-row="0">E</div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div><div class="sf-char" data-row="0"></div></div>
     <div class="sf-row"><div class="sf-char" data-row="1">Q</div><div class="sf-char" data-row="1">U</div><div class="sf-char" data-row="1">I</div><div class="sf-char" data-row="1">N</div><div class="sf-char" data-row="1">I</div><div class="sf-char" data-row="1">E</div><div class="sf-char" data-row="1">L</div><div class="sf-char" data-row="1">A</div><div class="sf-char" data-row="1"></div><div class="sf-char" data-row="1"></div><div class="sf-char" data-row="1"></div><div class="sf-char" data-row="1"></div></div>
     <div class="sf-row"><div class="sf-char" data-row="2">P</div><div class="sf-char" data-row="2">O</div><div class="sf-char" data-row="2">L</div><div class="sf-char" data-row="2">L</div><div class="sf-char" data-row="2">A</div><div class="sf-char" data-row="2"> </div><div class="sf-char" data-row="2">G</div><div class="sf-char" data-row="2">O</div><div class="sf-char" data-row="2">L</div><div class="sf-char" data-row="2"></div><div class="sf-char" data-row="2"></div><div class="sf-char" data-row="2"></div></div>
@@ -1070,7 +1070,7 @@
         }
         setTimeout(run,500);
       }
-      if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+      window.addEventListener('load', init);
     })();
 
     // ── TICKER ──
