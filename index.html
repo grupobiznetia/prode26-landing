@@ -522,9 +522,13 @@
         document.getElementById('pp-middle').textContent = 'ARS 400 por persona'
         document.getElementById('pp-middleplus').textContent = 'ARS 350 por persona'
       } else {
-        document.getElementById('pp-small').textContent = 'U$D ' + Math.ceil(PP.small / usdRate) + ' per person'
-        document.getElementById('pp-middle').textContent = 'U$D ' + Math.ceil(PP.middle / usdRate) + ' per person'
-        document.getElementById('pp-middleplus').textContent = 'U$D ' + Math.ceil(PP.middleplus / usdRate) + ' per person'
+        // precio plan / participantes maximos
+        var usdSmall = (formatUSD(PRECIOS_ARS.small).replace('U$D ','') / 20).toFixed(2)
+        var usdMiddle = (formatUSD(PRECIOS_ARS.middle).replace('U$D ','') / 50).toFixed(2)
+        var usdMplus  = (formatUSD(PRECIOS_ARS.middleplus).replace('U$D ','') / 100).toFixed(2)
+        document.getElementById('pp-small').textContent = 'U$D ' + usdSmall + ' per person'
+        document.getElementById('pp-middle').textContent = 'U$D ' + usdMiddle + ' per person'
+        document.getElementById('pp-middleplus').textContent = 'U$D ' + usdMplus + ' per person'
       }
     }
 
