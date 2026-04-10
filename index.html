@@ -515,6 +515,17 @@
       document.getElementById('price-middle').textContent = fn(PRECIOS_ARS.middle)
       document.getElementById('price-middleplus').textContent = fn(PRECIOS_ARS.middleplus)
       document.getElementById('price-enterprise').textContent = currency === 'ars' ? 'Consultar' : 'Contact us'
+      // Per person
+      var PP = { small: 500, middle: 400, middleplus: 350 }
+      if (currency === 'ars') {
+        document.getElementById('pp-small').textContent = 'ARS 500 por persona'
+        document.getElementById('pp-middle').textContent = 'ARS 400 por persona'
+        document.getElementById('pp-middleplus').textContent = 'ARS 350 por persona'
+      } else {
+        document.getElementById('pp-small').textContent = 'U$D ' + Math.ceil(PP.small / usdRate) + ' per person'
+        document.getElementById('pp-middle').textContent = 'U$D ' + Math.ceil(PP.middle / usdRate) + ' per person'
+        document.getElementById('pp-middleplus').textContent = 'U$D ' + Math.ceil(PP.middleplus / usdRate) + ' per person'
+      }
     }
 
     function setLang(lang) {
@@ -696,7 +707,7 @@
           </div>
           <ul class="plan-features">
             <li data-es="Hasta 20 participantes" data-en="Up to 20 participants">Hasta 20 participantes</li>
-            <li data-es="ARS 500 por persona" data-en="ARS 500 per person">ARS 500 por persona</li>
+            <li id="pp-small" data-es="ARS 500 por persona" data-en="ARS 500 per person">ARS 500 por persona</li>
             <li data-es="Logo de empresa" data-en="Company logo">Logo de empresa</li>
             <li data-es="Ranking en tiempo real" data-en="Real-time ranking">Ranking en tiempo real</li>
           </ul>
@@ -714,7 +725,7 @@
           </div>
           <ul class="plan-features">
             <li data-es="Hasta 50 participantes" data-en="Up to 50 participants">Hasta 50 participantes</li>
-            <li data-es="ARS 400 por persona" data-en="ARS 400 per person">ARS 400 por persona</li>
+            <li id="pp-middle" data-es="ARS 400 por persona" data-en="ARS 400 per person">ARS 400 por persona</li>
             <li data-es="Logo de empresa" data-en="Company logo">Logo de empresa</li>
             <li data-es="Ranking en tiempo real" data-en="Real-time ranking">Ranking en tiempo real</li>
           </ul>
@@ -731,7 +742,7 @@
           </div>
           <ul class="plan-features">
             <li data-es="Hasta 100 participantes" data-en="Up to 100 participants">Hasta 100 participantes</li>
-            <li data-es="ARS 350 por persona" data-en="ARS 350 per person">ARS 350 por persona</li>
+            <li id="pp-middleplus" data-es="ARS 350 por persona" data-en="ARS 350 per person">ARS 350 por persona</li>
             <li data-es="Logo de empresa" data-en="Company logo">Logo de empresa</li>
             <li data-es="Ranking en tiempo real" data-en="Real-time ranking">Ranking en tiempo real</li>
           </ul>
