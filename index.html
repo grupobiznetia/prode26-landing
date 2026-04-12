@@ -484,7 +484,7 @@
     }
 
     // Precios base en ARS
-    var PRECIOS_ARS = { small: 10000, middle: 20000, middleplus: 35000 }
+    var PRECIOS_ARS = { small: 10000, middle: 20000 }
     var usdRate = 1540 // default, se actualiza con dolarapi
     var currentCurrency = 'ars'
 
@@ -513,22 +513,16 @@
       var fn = currency === 'ars' ? formatARS : formatUSD
       document.getElementById('price-small').textContent = fn(PRECIOS_ARS.small)
       document.getElementById('price-middle').textContent = fn(PRECIOS_ARS.middle)
-      document.getElementById('price-middleplus').textContent = fn(PRECIOS_ARS.middleplus)
-      document.getElementById('price-enterprise').textContent = currency === 'ars' ? 'Consultar' : 'Contact us'
+      document.getElementById('price-enterprise').textContent = currency === 'ars' ? 'Desde $130.000' : 'Desde ' + formatUSD(130000)
       // Per person
-      var PP = { small: 500, middle: 400, middleplus: 350 }
       if (currency === 'ars') {
         document.getElementById('pp-small').textContent = 'ARS 500 por persona'
         document.getElementById('pp-middle').textContent = 'ARS 400 por persona'
-        document.getElementById('pp-middleplus').textContent = 'ARS 350 por persona'
       } else {
-        // precio plan / participantes maximos
         var usdSmall = (formatUSD(PRECIOS_ARS.small).replace('U$D ','') / 20).toFixed(2)
         var usdMiddle = (formatUSD(PRECIOS_ARS.middle).replace('U$D ','') / 50).toFixed(2)
-        var usdMplus  = (formatUSD(PRECIOS_ARS.middleplus).replace('U$D ','') / 100).toFixed(2)
         document.getElementById('pp-small').textContent = 'U$D ' + usdSmall + ' per person'
         document.getElementById('pp-middle').textContent = 'U$D ' + usdMiddle + ' per person'
-        document.getElementById('pp-middleplus').textContent = 'U$D ' + usdMplus + ' per person'
       }
     }
 
@@ -736,7 +730,7 @@
           <a href="https://app.mateplay26.com" class="plan-cta" data-es="Elegir Middle" data-en="Choose Middle">Elegir Middle</a>
         </div>
 
-        <div class="plan-card">
+        <div class="plan-card" style="display:none"><!-- MIDDLE+ PAUSADO — reactivar cuando corresponda -->
           <div class="plan-icon">🚀</div>
           <div class="plan-name">MIDDLE+</div>
           <div class="plan-tagline" data-es="Empresas medianas" data-en="Mid-size companies">Empresas medianas</div>
@@ -756,16 +750,17 @@
         <div class="plan-card">
           <div class="plan-icon">🏢</div>
           <div class="plan-name">ENTERPRISE</div>
-          <div class="plan-tagline" data-es="Más de 100 jugadores" data-en="More than 100 players">Más de 100 jugadores</div>
+          <div class="plan-tagline" data-es="Más de 50 jugadores" data-en="More than 50 players">Más de 50 jugadores</div>
           <div class="plan-price">
-            <div class="plan-price-num" id="price-enterprise" data-es="Consultar" data-en="Contact us">Consultar</div>
+            <div class="plan-price-num" id="price-enterprise" data-es="Desde $130.000" data-en="From $130.000">Desde $130.000</div>
             <div class="plan-price-period" data-es="precio a convenir" data-en="price on request">precio a convenir</div>
           </div>
           <ul class="plan-features">
-            <li data-es="Más de 100 participantes" data-en="More than 100 participants">Más de 100 participantes</li>
-            <li data-es="Logo de empresa" data-en="Company logo">Logo de empresa</li>
+            <li data-es="Más de 50 participantes" data-en="More than 50 participants">Más de 50 participantes</li>
+            <li data-es="Logo de marca exclusivo en la app" data-en="Exclusive brand logo in app">Logo de marca exclusivo en la app</li>
             <li data-es="Implementación personalizada" data-en="Custom implementation">Implementación personalizada</li>
             <li data-es="Soporte dedicado" data-en="Dedicated support">Soporte dedicado</li>
+            <li data-es="Onboarding tutelado" data-en="Guided onboarding">Onboarding tutelado</li>
           </ul>
           <a href="#contacto" class="plan-cta" data-es="Consultar precio" data-en="Contact us">Consultar precio</a>
         </div>
@@ -793,7 +788,7 @@
             <div class="enterprise-feature">
               <div class="enterprise-feature-icon">👥</div>
               <div>
-                <h4 data-es="Más de 100 participantes" data-en="More than 100 participants">Más de 100 participantes</h4>
+                <h4 data-es="Más de 50 participantes" data-en="More than 50 participants">Más de 50 participantes</h4>
                 <p data-es="Importá toda tu empresa desde un CSV. Gestión simple del admin para agregar o dar de baja jugadores." data-en="Import your entire company from a CSV. Simple admin management to add or remove players.">Importá toda tu empresa desde un CSV. Gestión simple del admin para agregar o dar de baja jugadores.</p>
               </div>
             </div>
@@ -816,10 +811,10 @@
         <div>
           <div class="enterprise-visual">
             <div class="enterprise-visual-logo">PRODE 2026</div>
-            <p data-es="Tu empresa, el Mundial, más de 100 colegas compitiendo. El evento interno del año." data-en="Your company, the World Cup, more than 100 colleagues competing. The internal event of the year.">Tu empresa, el Mundial, más de 100 colegas compitiendo. El evento interno del año.</p>
+            <p data-es="Tu empresa, el Mundial, más de 50 colegas compitiendo. El evento interno del año." data-en="Your company, the World Cup, more than 50 colleagues competing. The internal event of the year.">Tu empresa, el Mundial, más de 50 colegas compitiendo. El evento interno del año.</p>
             <div class="enterprise-stats">
               <div class="enterprise-stat">
-                <div class="enterprise-stat-num">+100</div>
+                <div class="enterprise-stat-num">+50</div>
                 <div class="enterprise-stat-label" data-es="Participantes" data-en="Participants">Participantes</div>
               </div>
               <div class="enterprise-stat">
@@ -912,8 +907,7 @@
                 <option data-es="Plan Family (gratis · 5 usuarios)" data-en="Family Plan (free · 5 users)">Plan Family (gratis · 5 usuarios)</option>
                 <option data-es="Plan Small ($10.000 · 20 usuarios)" data-en="Small Plan ($10.000 · 20 users)">Plan Small ($10.000 · 20 usuarios)</option>
                 <option data-es="Plan Middle ($20.000 · 50 usuarios)" data-en="Middle Plan ($20.000 · 50 users)">Plan Middle ($20.000 · 50 usuarios)</option>
-                <option data-es="Plan Middle+ ($35.000 · 100 usuarios)" data-en="Middle+ Plan ($35.000 · 100 users)">Plan Middle+ ($35.000 · 100 usuarios)</option>
-                <option data-es="Plan Enterprise (consultar)" data-en="Enterprise Plan (contact us)">Plan Enterprise (consultar)</option>
+                <option data-es="Plan Enterprise (más de 50 · consultar)" data-en="Enterprise Plan (50+ · contact us)">Plan Enterprise (más de 50 · consultar)</option>
                 <option data-es="Tengo una pregunta" data-en="I have a question">Tengo una pregunta</option>
               </select>
             </div>
@@ -1005,8 +999,7 @@
     const prices = {
       small:       { usd: formatUSD(10000), ars: '$10.000' },
       middle:      { usd: formatUSD(20000), ars: '$20.000' },
-      middleplus:  { usd: formatUSD(35000), ars: '$35.000' },
-      enterprise:  { usd: 'Contact us',    ars: 'Consultar' },
+      enterprise:  { usd: null, ars: 'Desde $130.000' },
     }
     function setCurrency(currency) {
       currentCurrency = currency
@@ -1016,8 +1009,7 @@
     }
     function updatePrices() {
       document.getElementById('price-middle').textContent = prices.middle[currentCurrency]
-      document.getElementById('price-middleplus').textContent = prices.middleplus[currentCurrency]
-      document.getElementById('price-enterprise').textContent = prices.enterprise[currentCurrency]
+      document.getElementById('price-enterprise').textContent = currentCurrency === 'ars' ? 'Desde $130.000' : 'Desde ' + formatUSD(130000)
     }
 
     // ── FORM ──
