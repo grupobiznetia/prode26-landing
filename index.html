@@ -485,23 +485,31 @@
 
     // Precios base en ARS
     var PRECIOS_ARS = { small: 10000, middle: 20000 }
-    var usdRate = 1540 // default, se actualiza con dolarapi
+    var usdRate = 1200 // default actualizado, se reemplaza con dolarapi
     var currentCurrency = 'ars'
 
-    // Fetch tipo de cambio Banco Macro al cargar
-    fetch('https://dolarapi.com/v1/dolares')
-      .then(function(r) { return r.json() })
-      .then(function(data) {
-        var macro = Array.isArray(data) ? data.find(function(d) { return d.nombre && d.nombre.toLowerCase().includes('oficial') }) : null
-        if (macro && macro.venta) {
-          usdRate = macro.venta
-        } else {
-          return fetch('https://dolarapi.com/v1/dolares/oficial')
+    // Fetch tipo de cambio — intenta oficial, luego blue, luego default
+    function fetchTipoCambio() {
+      fetch('https://dolarapi.com/v1/dolares/oficial')
+        .then(function(r) { return r.json() })
+        .then(function(d) {
+          if (d && d.venta && d.venta > 0) {
+            usdRate = d.venta
+          } else {
+            return fetch('https://dolarapi.com/v1/dolares/blue')
+              .then(function(r) { return r.json() })
+              .then(function(b) { if (b && b.venta && b.venta > 0) usdRate = b.venta })
+          }
+        })
+        .catch(function() {
+          // Si falla todo, intenta blue como último recurso
+          fetch('https://dolarapi.com/v1/dolares/blue')
             .then(function(r) { return r.json() })
-            .then(function(d) { if (d && d.venta) usdRate = d.venta })
-        }
-      })
-      .catch(function() {})
+            .then(function(b) { if (b && b.venta && b.venta > 0) usdRate = b.venta })
+            .catch(function() {}) // si falla todo, queda el default
+        })
+    }
+    fetchTipoCambio()
 
     function formatARS(n) { return '$' + n.toLocaleString('es-AR') }
     function formatUSD(ars) { return 'U$D ' + Math.ceil(ars / usdRate) }
